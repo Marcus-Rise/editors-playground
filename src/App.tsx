@@ -1,26 +1,23 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {FC, useState} from 'react';
+import initialData from './data.json'
+import Editor from "./components/Editor";
+import {JsonEditor} from "./components/JsonEditor";
+import {OutputData} from "@editorjs/editorjs";
 
-function App() {
+const App: FC = () => {
+  const [data, setData] = useState<OutputData>(initialData);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <JsonEditor data={data} onChange={(data) => setData(data)} />
+
+      <Editor
+        onChange={(row) => console.debug(row)}
+        holder={"ad"}
+        data={data}
+      />
+    </>
   );
-}
+};
 
 export default App;
