@@ -5,8 +5,7 @@ import List from '@editorjs/list';
 import Delimiter from '@editorjs/delimiter';
 import Image from '@editorjs/image';
 import Table from '@editorjs/table';
-import {UnderlineInlineTool,} from 'editorjs-inline-tool';
-
+import {UnderlineInlineTool} from 'editorjs-inline-tool';
 
 export const EDITOR_TOOLS = {
   underline: UnderlineInlineTool,
