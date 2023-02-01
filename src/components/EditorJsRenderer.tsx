@@ -1,15 +1,8 @@
-import { OutputData } from "@editorjs/editorjs";
-
-type TableBlock = {
-  data: {
-    "withHeadings": boolean,
-    "content": string[][];
-  }
-}
+import {EditorDto, SliceTable} from "../dto";
 
 const editorJsHtml = require("editorjs-html");
 const EditorJsToHtml = editorJsHtml({
-  table: (block: TableBlock) => {
+  table: (block: SliceTable) => {
     const rows = block.data.content
       .map((row, rowIndex) => `<tr>${
         row
@@ -25,13 +18,12 @@ const EditorJsToHtml = editorJsHtml({
 });
 
 type Props = {
-  data: OutputData;
+  data: EditorDto;
 };
 type ParsedContent = string | JSX.Element;
 
 const EditorJsRenderer = ({ data }: Props) => {
-  const html = EditorJsToHtml.parse(data) as ParsedContent[];
-
+  const html = EditorJsToHtml.parse({blocks: data}) as ParsedContent[];
 
   return (
     <div className="prose max-w-full ">

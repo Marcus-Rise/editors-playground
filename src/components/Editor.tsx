@@ -1,14 +1,15 @@
 import React, {memo, useEffect, useRef} from "react";
-import EditorJS, {OutputData} from "@editorjs/editorjs";
+import EditorJS from "@editorjs/editorjs";
 import {EDITOR_TOOLS} from "./EditorTools";
+import {EditorDto} from "../dto";
 
 type Props = {
-  data?: OutputData;
-  onChange(val: OutputData): void;
+  data?: EditorDto;
+  onChange(val: EditorDto): void;
   holder: string;
 };
 
-const EditorBlock = ({ data, onChange, holder }: Props) => {
+const EditorBlock = ({data, onChange, holder}: Props) => {
   const ref = useRef<EditorJS>();
 
   useEffect(() => {
@@ -16,10 +17,12 @@ const EditorBlock = ({ data, onChange, holder }: Props) => {
       ref.current = new EditorJS({
         holder: holder,
         tools: EDITOR_TOOLS,
-        data,
+        data: {
+          blocks: data ?? [],
+        },
         async onChange(api, event) {
           const data = await api.saver.save();
-          onChange(data);
+          onChange(data.blocks as EditorDto);
         },
       });
     }
@@ -33,11 +36,11 @@ const EditorBlock = ({ data, onChange, holder }: Props) => {
 
   useEffect(() => {
     if (!!ref.current?.render && data) {
-      ref.current?.render(data);
+      ref.current?.render({blocks: data});
     }
   }, [data]);
 
-  return <div id={holder} />;
+  return <div id={holder}/>;
 };
 
 export default memo(EditorBlock);

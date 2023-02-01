@@ -1,20 +1,21 @@
 import React, {FC, useState} from 'react';
 import initialData from './data.json'
 import Editor from "./components/Editor";
-import {OutputData} from "@editorjs/editorjs";
 import EditorJsRenderer from "./components/EditorJsRenderer";
-import {EditorDtoFactory, ServerDto, ServerDtoFactory} from "./dto";
+import {EditorDto, EditorDtoFactory, ServerDto, ServerDtoFactory} from "./dto";
 import {ServerDtoForm} from "./components/ServerDtoForm";
 
 const App: FC = () => {
-  const [data, setData] = useState<OutputData>(initialData);
+  const [data, setData] = useState<EditorDto>(initialData.blocks as EditorDto);
 
-  const processEditorData = (data: OutputData): void => {
-    console.debug("processEditorData", "blocks", data.blocks);
+  const processEditorData = (data: EditorDto): void => {
+    console.debug("processEditorData", "blocks", data);
 
-    const dto = ServerDtoFactory.fromEditorDto(data.blocks);
+    const dto = ServerDtoFactory.fromEditorDto(data);
 
     console.debug("processEditorData", "result", dto);
+
+    setData(data);
   };
 
   const processServerDto = (dto: ServerDto) => {
@@ -24,7 +25,7 @@ const App: FC = () => {
 
     console.debug("processServerDto", "editorDto", editorDto);
 
-    setData((data) => ({...data, blocks: editorDto}));
+    setData(editorDto);
   }
 
   return (
