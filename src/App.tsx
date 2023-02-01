@@ -7,6 +7,7 @@ import {ServerDtoForm} from "./components/ServerDtoForm";
 
 const App: FC = () => {
   const [data, setData] = useState<EditorDto>(initialData.blocks as EditorDto);
+  const [serverDto, setServerDto] = useState(`<p>awdwada</p>`);
 
   const processEditorData = (data: EditorDto): void => {
     console.debug("processEditorData", "blocks", data);
@@ -15,7 +16,7 @@ const App: FC = () => {
 
     console.debug("processEditorData", "result", dto);
 
-    setData(data);
+    setServerDto(dto);
   };
 
   const processServerDto = (dto: ServerDto) => {
@@ -30,7 +31,7 @@ const App: FC = () => {
 
   return (
     <main>
-      <ServerDtoForm onChange={processServerDto} defaultValue={`<p>awdwada</p>`}/>
+      <ServerDtoForm onChange={processServerDto} defaultValue={serverDto}/>
 
       <Editor
         onChange={processEditorData}
