@@ -1,6 +1,18 @@
 import {EditorDto, ServerDto, SliceType} from "./types";
 
 abstract class EditorDtoFactory {
+  static getNodeContent(node: Node): string {
+    return Array.from(node.childNodes).reduce<string>((content, node: ChildNode | Element) => {
+      if (node.nodeName === "#text") {
+        return content + node.textContent;
+      } else if ("outerHTML" in node) {
+        return content + node.outerHTML;
+      } else {
+        return '';
+      }
+    }, "");
+  }
+//Workspace in classic editors is made of a single contenteditable element, used to create different HTML markups. Editor.js workspace consists of separate Blocks: paragraphs, headings, images, lists, quotes, etc. Each of them is an independent contenteditable element (or more complex structure) provided by Plugin and united by Editor's Core.
   static fromServerDto(dto: ServerDto): EditorDto {
     const container = document.createElement("div");
 
@@ -11,13 +23,14 @@ abstract class EditorDtoFactory {
 
     return Array.from(container.childNodes).reduce<EditorDto>((items, node) => {
       console.debug(node);
+      console.debug(node.childNodes);
 
       switch (node.nodeName) {
         case "P": {
           return [...items, {
             type: SliceType.PARAGRAPH,
             data: {
-              text: node.textContent ?? "",
+              text: this.getNodeContent(node),
             }
           }]
         }
@@ -37,7 +50,7 @@ abstract class EditorDtoFactory {
               type: SliceType.LIST,
               data: {
                 style: "unordered",
-                items: Array.from(node.childNodes).map((listItem) => listItem.textContent ?? '')
+                items: Array.from(node.childNodes).map((listItem) => this.getNodeContent(listItem))
               }
             }
           ]
@@ -49,7 +62,7 @@ abstract class EditorDtoFactory {
               type: SliceType.LIST,
               data: {
                 style: "ordered",
-                items: Array.from(node.childNodes).map((listItem) => listItem.textContent ?? '')
+                items: Array.from(node.childNodes).map((listItem) => this.getNodeContent(listItem))
               }
             }
           ]
@@ -60,7 +73,7 @@ abstract class EditorDtoFactory {
           const rows: Array<Array<string>> = [];
 
           if (!!head) {
-            const headChildren = Array.from(head.childNodes.item(0).childNodes).map((child) => child.textContent ?? '')
+            const headChildren = Array.from(head.childNodes.item(0).childNodes).map((child) => this.getNodeContent(child))
 
             rows.push(headChildren);
           }
@@ -72,7 +85,7 @@ abstract class EditorDtoFactory {
                * @param row <tr>
                */
               (row) => {
-                const cells = Array.from(row.childNodes).map((child) => child.textContent ?? '');
+                const cells = Array.from(row.childNodes).map((child) => this.getNodeContent(child));
 
                 rows.push(cells);
               })
@@ -95,7 +108,7 @@ abstract class EditorDtoFactory {
             {
               type: SliceType.HEADER,
               data: {
-                text: node.textContent ?? '',
+                text: this.getNodeContent(node),
                 level: 1,
               }
             }
@@ -107,7 +120,7 @@ abstract class EditorDtoFactory {
             {
               type: SliceType.HEADER,
               data: {
-                text: node.textContent ?? '',
+                text: this.getNodeContent(node),
                 level: 2,
               }
             }
@@ -119,7 +132,7 @@ abstract class EditorDtoFactory {
             {
               type: SliceType.HEADER,
               data: {
-                text: node.textContent ?? '',
+                text: this.getNodeContent(node),
                 level: 3,
               }
             }
@@ -131,7 +144,7 @@ abstract class EditorDtoFactory {
             {
               type: SliceType.HEADER,
               data: {
-                text: node.textContent ?? '',
+                text: this.getNodeContent(node),
                 level: 4,
               }
             }
@@ -143,7 +156,7 @@ abstract class EditorDtoFactory {
             {
               type: SliceType.HEADER,
               data: {
-                text: node.textContent ?? '',
+                text: this.getNodeContent(node),
                 level: 5,
               }
             }
@@ -155,7 +168,7 @@ abstract class EditorDtoFactory {
             {
               type: SliceType.HEADER,
               data: {
-                text: node.textContent ?? '',
+                text: this.getNodeContent(node),
                 level: 6,
               }
             }
