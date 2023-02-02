@@ -5,7 +5,7 @@ abstract class ServerDtoFactory {
     return dto.map((element) => {
       switch (element.type) {
         case SliceType.HEADER: {
-         return `<h${element.data.level}>${element.data.text}</h${element.data.level}>`
+          return `<h${element.data.level}>${element.data.text}</h${element.data.level}>`
         }
         case SliceType.PARAGRAPH: {
           return `<p>${element.data.text}</p>`
@@ -19,26 +19,31 @@ abstract class ServerDtoFactory {
 
           return `<${list}>${items.join('')}</${list}>`
         }
-        case SliceType.IMAGE: {
-          return `<img src="${element.data.file.url}" alt="${element.data.caption}" />`;
-        }
         case SliceType.TABLE: {
           let head = '';
+          let content = '';
+
+          const [firstRow, ...rows] = element.data.content;
 
           if (element.data.withHeadings) {
-            const cols = element.data.content.at(0)?.map((item) => `<th>${item}</th>`).join('');
+            const cols = firstRow.map((item) => `<th>${item}</th>`).join('');
 
             if (cols) {
               head = `<thead><tr>${cols}</tr></thead>`;
             }
+
+            content = rows.map((row) => {
+              const cols = row.map((col) => `<td>${col}</td>`).join('');
+
+              return `<tr>${cols}</tr>`;
+            }).join('');
+          } else {
+            content = [firstRow, ...rows].map((row) => {
+              const cols = row.map((col) => `<td>${col}</td>`).join('');
+
+              return `<tr>${cols}</tr>`;
+            }).join('');
           }
-
-          const [_, ...rows] =element.data.content;
-          const content = rows.map((row) => {
-            const cols = row.map((col) => `<td>${col}</td>`).join('');
-
-            return `<tr>${cols}</tr>`;
-          }).join('');
 
           return `<table>${head}<tbody>${content}</tbody></table>`;
         }

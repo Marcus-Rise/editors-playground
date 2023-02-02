@@ -10,7 +10,6 @@ enum SliceType {
   HEADER = "header",
   LIST = "list",
   DELIMITER = "delimiter",
-  IMAGE = "image",
   TABLE = "table",
 }
 
@@ -26,27 +25,20 @@ type SliceList = OutputBlockData<SliceType.LIST, {
   items: Array<string>;
 }>;
 type SliceDelimiter = OutputBlockData<SliceType.DELIMITER, {}>;
-type SliceImage = OutputBlockData<SliceType.IMAGE, {
-  file: {
-    url: string;
-  };
-  caption: string;
-  withBorder: boolean;
-  stretched: boolean;
-  withBackground: boolean;
-}>;
 type SliceTable = OutputBlockData<SliceType.TABLE, {
   withHeadings: boolean;
   content: Array<Array<string>>;
 }>;
+type SliceUnknown = OutputBlockData<"unknown", {}>;
 
-type EditorDto = Array<SliceParagraph
+type Slice = SliceParagraph
   | SliceHeader
   | SliceList
   | SliceDelimiter
-  | SliceImage
   | SliceTable
->;
+  | SliceUnknown;
 
-export type {ServerDto, EditorDto, SliceTable};
+type EditorDto = Array<Slice>;
+
+export type {ServerDto, Slice, EditorDto, SliceTable, SliceParagraph, SliceHeader, SliceList};
 export {SliceType};
