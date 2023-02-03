@@ -1,9 +1,17 @@
 import React, {FC, useState} from 'react';
 import initialData from './data.json'
 import Editor from "./components/Editor";
-import EditorJsRenderer from "./components/EditorJsRenderer";
 import {EditorDto, EditorDtoFactory, ServerDto, ServerDtoFactory} from "./dto";
 import {ServerDtoForm} from "./components/ServerDtoForm";
+import {SlateEditor} from "./components/slate";
+import {Descendant} from "slate";
+
+const initialValue: Array<Descendant> = [{
+  type: "paragraph",
+  children: [{
+    text: "A line of text in a paragraph.",
+  }],
+}];
 
 const App: FC = () => {
   const [data, setData] = useState<EditorDto>(initialData.blocks as EditorDto);
@@ -31,17 +39,9 @@ const App: FC = () => {
 
   return (
     <main>
-      <ServerDtoForm onChange={processServerDto} defaultValue={serverDto}/>
+      {/*<ServerDtoForm onChange={processServerDto} defaultValue={serverDto}/>*/}
 
-      <Editor
-        onChange={processEditorData}
-        holder={"ad"}
-        data={data}
-      />
-
-      <h2>Preview</h2>
-
-      {!!data && <EditorJsRenderer data={data}/>}
+      <SlateEditor value={initialValue} onChange={console.debug}/>
     </main>
   );
 };
