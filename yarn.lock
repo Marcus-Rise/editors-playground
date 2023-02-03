@@ -3883,6 +3883,11 @@ editorjs-inline-tool@^0.4.0:
   resolved "https://registry.yarnpkg.com/editorjs-inline-tool/-/editorjs-inline-tool-0.4.0.tgz#a674d419bf6562c86cb74c7ffcefcfb3007db1a8"
   integrity sha512-Ppb4e8IFPjWuNcoNM4tg9bDSo7FgMYAlqP4UhuV5W2JoJBubV5pUcpLrFrSyGTt1HJVEpbrib134zf4wxO+7VA==
 
+editorjs-text-color-plugin@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/editorjs-text-color-plugin/-/editorjs-text-color-plugin-2.0.2.tgz#235630e460c843f01eb1131fcc789eb13971eb03"
+  integrity sha512-umiv8Yc4NjEg1O5dJFDjOQQ31mLKCdTSdVHVuPNmOKdbl+OIi5/DB9P1SRG+zr+sTV0QHWa8x0hZbyqY92DPhw==
+
 ee-first@1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/ee-first/-/ee-first-1.1.1.tgz#590c61156b0ae2f4f0255732a158b266bc56b21d"
