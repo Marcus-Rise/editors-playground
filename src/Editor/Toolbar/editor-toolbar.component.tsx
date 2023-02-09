@@ -11,7 +11,7 @@ import {
   Underline,
   Undo,
   UnorderedList
-} from "../actions";
+} from "./actions";
 import {useEditor} from "../editor.hook";
 
 const EditorToolbar: FC<ComponentProps<typeof Root>> = (props) => {

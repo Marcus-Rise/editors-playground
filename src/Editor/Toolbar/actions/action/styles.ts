@@ -1,5 +1,5 @@
 import { IconButton } from '@admiral-ds/react-ui';
-import { Tooltip as InternalTooltip } from '../../../Tooltip';
+import { Tooltip as InternalTooltip } from '../../../../components/Tooltip';
 import styled from 'styled-components';
 
 export const Tooltip = styled(InternalTooltip)<{ disabled?: boolean }>`
