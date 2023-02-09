@@ -1,12 +1,15 @@
-import {useMemo} from "react";
-import {withReact} from "slate-react";
-import {withHistory} from "slate-history";
-import {createEditor, Editor, Text, Transforms} from "slate";
+import {useContext} from "react";
+import {Editor, Text, Transforms} from "slate";
+import {EditorContext} from "./editor.context";
 
 const useEditor = () => {
-  const editor = useMemo(() => withReact(withHistory(createEditor())), [])
+  const {editor} = useContext(EditorContext);
 
   const isBoldMarkActive = () => {
+    if (!editor) {
+      return;
+    }
+
     const [match] = Editor.nodes(editor, {
       match: (n: any) => n.bold === true,
       universal: true,
@@ -16,26 +19,38 @@ const useEditor = () => {
   };
 
   const isCodeBlockActive = () => {
+    if (!editor) {
+      return;
+    }
+
     const [match] = Editor.nodes(editor, {
-      match: (n : any) => n.type === 'code',
+      match: (n: any) => n.type === 'code',
     })
 
     return !!match
   };
 
   const toggleBoldMark = () => {
+    if (!editor) {
+      return;
+    }
+
     const isActive = isBoldMarkActive()
     Transforms.setNodes(
       editor,
-      { bold: isActive ? undefined : true },
-      { match: (n) => Text.isText(n), split: true }
+      {bold: isActive ? undefined : true},
+      {match: (n) => Text.isText(n), split: true}
     )
   };
 
   const toggleCodeBlock = () => {
+    if (!editor) {
+      return;
+    }
+
     Transforms.setNodes(
       editor,
-      { type: isCodeBlockActive() ? undefined : 'code' },
+      {type: isCodeBlockActive() ? undefined : 'code'},
       // { match: (n: any) => Editor.isBlock(editor, n) }
     )
   };

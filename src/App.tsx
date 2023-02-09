@@ -1,10 +1,6 @@
-import React, {FC, useState} from 'react';
-import initialData from './data.json'
-import Editor from "./components/Editor";
-import {EditorDto, EditorDtoFactory, ServerDto, ServerDtoFactory} from "./dto";
-import {ServerDtoForm} from "./components/ServerDtoForm";
-import {SlateEditor} from "./components/slate";
+import React, {FC} from 'react';
 import {Descendant} from "slate";
+import {Editor, EditorContextProvider, EditorToolbar} from "./Editor";
 
 const initialValue: Array<Descendant> = [{
   type: "paragraph",
@@ -13,37 +9,14 @@ const initialValue: Array<Descendant> = [{
   }],
 }];
 
-const App: FC = () => {
-  const [data, setData] = useState<EditorDto>(initialData.blocks as EditorDto);
-  const [serverDto, setServerDto] = useState(`<p>awdwada</p>`);
-
-  const processEditorData = (data: EditorDto): void => {
-    console.debug("processEditorData", "blocks", data);
-
-    const dto = ServerDtoFactory.fromEditorDto(data);
-
-    console.debug("processEditorData", "result", dto);
-
-    setServerDto(dto);
-  };
-
-  const processServerDto = (dto: ServerDto) => {
-    console.debug("processServerDto", "dto", dto);
-
-    const editorDto = EditorDtoFactory.fromServerDto(dto);
-
-    console.debug("processServerDto", "editorDto", editorDto);
-
-    setData(editorDto);
-  }
-
-  return (
+const App: FC = () =>
+  (
     <main>
-      {/*<ServerDtoForm onChange={processServerDto} defaultValue={serverDto}/>*/}
-
-      <SlateEditor value={initialValue} onChange={console.debug}/>
+      <EditorContextProvider>
+        <EditorToolbar/>
+        <Editor value={initialValue} onChange={console.log}/>
+      </EditorContextProvider>
     </main>
   );
-};
 
 export default App;

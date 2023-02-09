@@ -1,36 +1,23 @@
 import type {ComponentProps, FC} from 'react';
 import {Editable, Slate} from "slate-react";
-import {RenderElement} from "./Elements";
-import {RenderLeaf} from "./Leaf";
+import {RenderElement} from "./components/Elements";
+import {RenderLeaf} from "./components/Leaf";
 import {useEditor} from "./editor.hook";
 
 type EditorProps = ComponentProps<typeof Slate>;
 type EditorProp<Prop extends keyof EditorProps> = EditorProps[Prop];
 
 type Props = { value?: EditorProp<"value">, onChange?: EditorProp<"onChange"> };
-const SlateEditor: FC<Props> = ({ value= [{type: "paragraph", children: []}], onChange, }) => {
+
+const Editor: FC<Props> = ({ value= [{type: "paragraph", children: []}], onChange, }) => {
   const {editor, toggleCodeBlock, toggleBoldMark} = useEditor();
+
+  if (!editor) {
+    return null;
+  }
 
   return (
     <Slate editor={editor} value={value} onChange={onChange}>
-      <div>
-        <button
-          onMouseDown={(event) => {
-            event.preventDefault()
-            toggleBoldMark();
-          }}
-        >
-          Bold
-        </button>
-        <button
-          onMouseDown={(event) => {
-            event.preventDefault()
-            toggleCodeBlock();
-          }}
-        >
-          Code Block
-        </button>
-      </div>
       <Editable
         renderElement={RenderElement}
         renderLeaf={RenderLeaf}
@@ -59,4 +46,4 @@ const SlateEditor: FC<Props> = ({ value= [{type: "paragraph", children: []}], on
   );
 };
 
-export {SlateEditor};
+export {Editor};
