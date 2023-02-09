@@ -7,11 +7,11 @@ export const Tooltip = styled(InternalTooltip)<{ disabled?: boolean }>`
 `;
 
 export const Root = styled(IconButton).attrs({
-  // dimension: 's'
+  dimension: 's'
 })<{ isActive?: boolean }>`
-  //border-radius: 8px;
-  background-color: ${({ isActive }) =>
-    isActive && "grey"};
+  border-radius: 8px;
+  background-color: ${({ isActive, theme }) =>
+    isActive && theme.color['Opacity/Press']};
 `;
 
 export const Wrapper = styled.div`

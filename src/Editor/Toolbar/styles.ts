@@ -1,10 +1,8 @@
 import styled from 'styled-components';
 
-export const Root = styled.div<{ withBottomBorder?: boolean }>`
-  border-bottom: 1px solid
-    ${({ withBottomBorder }) =>
-      withBottomBorder ? "grey" : 'transparent'};
-  border-top: 1px solid grey;
+export const Root = styled.div`
+  border-bottom: 1px solid ${({theme}) => theme.color['Neutral/Neutral 20']};
+  border-top: 1px solid ${({theme}) => theme.color['Neutral/Neutral 20']};
 
   padding: 8px 0;
 
@@ -23,7 +21,7 @@ export const Group = styled.div`
   display: inline-flex;
 
   &:not(:last-child) {
-    border-right: 1px solid grey;
+    border-right: 1px solid ${({theme}) => theme.color['Neutral/Neutral 20']};
     padding-right: 8px;
   }
 
