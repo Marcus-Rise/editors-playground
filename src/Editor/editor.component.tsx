@@ -22,7 +22,7 @@ const Editor: FC<Props> = ({ value= [{type: "paragraph", children: []}], onChang
         renderElement={RenderElement}
         renderLeaf={RenderLeaf}
         onKeyDown={(event) => {
-          if (!event.ctrlKey) {
+          if (!event.ctrlKey && !event.metaKey) {
             return;
           }
 
