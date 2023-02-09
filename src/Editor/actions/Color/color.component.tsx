@@ -1,15 +1,12 @@
 import {FC, MouseEvent, useCallback, useRef, useState} from 'react';
 import {Action} from '../action';
-import { ColorIcon } from './assets/color';
-import { Theme } from '@admiral-ds/react-ui';
-import { useTheme } from 'styled-components';
-import { getColors } from './colors';
-import { convertRGBtoHex } from '../../utils/color';
-import { ColorContainer, ColorItem, Dropdown } from './styles';
+import {ColorIcon} from './assets/color';
+import {Theme} from '@admiral-ds/react-ui';
+import {useTheme} from 'styled-components';
+import {getColors} from './colors';
+import {ColorContainer, ColorItem, Dropdown} from './styles';
 
-const COMMAND = 'foreColor';
-
-const Color: FC = () => {
+const Color: FC<{onSelect: (color: string) => void}> = ({onSelect}) => {
   const theme = useTheme() as Theme;
   const colors = getColors(theme);
   const [isActive, setActive] = useState(false);
@@ -21,7 +18,7 @@ const Color: FC = () => {
     setActive(true);
   }, [setActive, isActive]);
 
-  const handleSelectionChange = useCallback(() => {
+  /*const handleSelectionChange = useCallback(() => {
     const [_, ...restColors] = Object.values(colors);
 
     setActive(
@@ -29,12 +26,12 @@ const Color: FC = () => {
         convertRGBtoHex(document.queryCommandValue(COMMAND)).toUpperCase()
       )
     );
-  }, [setActive, isActive, colors]);
+  }, [setActive, isActive, colors]);*/
 
   const handleItemMouseDown = useCallback(
     (color: string, event: MouseEvent) => {
       event.stopPropagation();
-      document.execCommand(COMMAND, false, colors[color]);
+      onSelect(colors[color]);
       handleDropdownClose();
     },
     []
@@ -74,7 +71,7 @@ const Color: FC = () => {
         onClick={handleClick}
         isActive={isActive}
       >
-        <ColorIcon color={document.queryCommandValue(COMMAND)} />
+        <ColorIcon color={""} />
       </Action>
     </>
   );

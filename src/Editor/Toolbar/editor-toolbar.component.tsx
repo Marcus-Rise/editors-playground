@@ -1,7 +1,7 @@
 import type {ComponentProps, FC} from 'react';
 import {Group, Root} from "./styles";
 import {
-  Bold,
+  Bold, Color,
   Copy,
   Cut,
   Italic,
@@ -28,7 +28,7 @@ const EditorToolbar: FC<ComponentProps<typeof Root>> = (props) => {
         <Bold onClick={toggleBoldMark}/>
         <Italic onClick={() => console.log("italic")}/>
         <Underline onClick={() => console.log("underline")}/>
-        {/*<Color onClick={() => console.log("color")}/>*/}
+        <Color onSelect={(color) => console.log("color", color)} />
       </Group>
       <Group>
         <UnorderedList onClick={() => console.log("unordered")}/>
