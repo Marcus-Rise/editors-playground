@@ -6,7 +6,7 @@ import {
   ModalTitle
 } from '@admiral-ds/react-ui';
 import {
-  ChangeEvent,
+  ChangeEvent, FC,
   MouseEvent,
   useCallback,
   useEffect,
@@ -23,7 +23,7 @@ type LinkModalProps = {
   onSubmit: (text?: string, link?: string) => void;
 };
 
-const LinkModal: React.FC<LinkModalProps> = ({
+const LinkModal: FC<LinkModalProps> = ({
   isOpen,
   initialLink,
   initialText,

@@ -4,7 +4,7 @@ import {
   Bold, Color,
   Copy,
   Cut,
-  Italic,
+  Italic, Link,
   OrderedList,
   Paste,
   Redo,
@@ -34,9 +34,9 @@ const EditorToolbar: FC<ComponentProps<typeof Root>> = (props) => {
         <UnorderedList onClick={() => console.log("unordered")}/>
         <OrderedList onClick={() => console.log("ordered")}/>
       </Group>
-      {/*<Group>
-        <Link onClick={() => console.log("link")}/>
-      </Group>*/}
+      <Group>
+        <Link value={{}} onSubmit={(dto) => console.log("link", dto)}/>
+      </Group>
       <Group>
         <Undo onClick={() => console.log("undo")}/>
         <Redo onClick={() => console.log("redo")}/>
