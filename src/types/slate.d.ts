@@ -1,10 +1,10 @@
-import { BaseEditor } from 'slate'
-import { ReactEditor } from 'slate-react'
-import { HistoryEditor } from 'slate-history'
+import {BaseEditor} from 'slate'
+import {ReactEditor} from 'slate-react'
+import {HistoryEditor} from 'slate-history'
 
 type CustomEditor = BaseEditor & ReactEditor & HistoryEditor
 
-type FormattedText = { text: string; bold?: true; italic?: true; underline?: true }
+type FormattedText = { text: string; bold?: true; italic?: true; underline?: true; color?: string; }
 
 type CustomText = FormattedText
 

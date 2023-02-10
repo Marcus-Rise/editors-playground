@@ -1,5 +1,5 @@
-import {useContext, useMemo} from "react";
-import {Editor, Text, Transforms, Node} from "slate";
+import {useContext} from "react";
+import {Editor, Text, Transforms} from "slate";
 import {EditorContext} from "./editor.context";
 import {serialize} from "./utils/serialize.helper";
 import {copyToClipboard, readFromClipboard} from "./Toolbar/utils/clipboard.helper";
@@ -41,6 +41,19 @@ const useEditor = () => {
 
     const [match] = Editor.nodes(editor, {
       match: (n: any) => n.underline === true,
+      universal: true,
+    })
+
+    return !!match
+  };
+
+  const isColorMarkActive = () => {
+    if (!editor) {
+      return;
+    }
+
+    const [match] = Editor.nodes(editor, {
+      match: (n: any) => !!n.color,
       universal: true,
     })
 
@@ -97,6 +110,20 @@ const useEditor = () => {
     Transforms.setNodes(
       editor,
       {underline: isActive ? undefined : true},
+      {match: (n) => Text.isText(n), split: true}
+    )
+  };
+
+  const toggleColorMark = (color: string) => {
+    if (!editor) {
+      return;
+    }
+
+    const isActive = isColorMarkActive();
+
+    Transforms.setNodes(
+      editor,
+      {color: isActive ? undefined : color},
       {match: (n) => Text.isText(n), split: true}
     )
   };
@@ -166,6 +193,7 @@ const useEditor = () => {
     toggleBoldMark,
     toggleItalicMark,
     toggleUnderlineMark,
+    toggleColorMark,
     toggleCodeBlock,
     copy,
     cut,

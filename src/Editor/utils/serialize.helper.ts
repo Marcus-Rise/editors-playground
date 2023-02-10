@@ -18,6 +18,10 @@ const serialize = (node: CustomElement | CustomText): string => {
       string = `<u>${string}</u>`
     }
 
+    if (node.color) {
+      string = `<font color="${node.color}">${string}</font>`
+    }
+
     return string
   }
 

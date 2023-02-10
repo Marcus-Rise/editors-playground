@@ -24,6 +24,12 @@ const deserialize = (el: Element, markAttributes = Object.create({})): Array<Sla
       nodeAttributes.underline = true;
       break;
     }
+    case 'FONT': {
+      const color = el.attributes.getNamedItem("color")?.value;
+
+      nodeAttributes.color = color ?? undefined;
+      break;
+    }
   }
 
   const children = Array.from(el.childNodes)

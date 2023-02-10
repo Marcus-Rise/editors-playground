@@ -9,6 +9,7 @@ const RenderLeaf = (props: RenderLeafProps) =>
         fontWeight: props.leaf.bold ? 'bold' : 'normal',
         fontStyle: props.leaf.italic ? 'italic' : 'normal',
         textDecoration: props.leaf.underline ? 'underline' : 'none',
+        color: props.leaf.color,
       }}
     >
       {props.children}
