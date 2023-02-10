@@ -17,7 +17,7 @@ import {
 import {useEditor} from "../editor.hook";
 
 const EditorToolbar: FC<ComponentProps<typeof Root>> = (props) => {
-  const {toggleBoldMark, toggleItalicMark, toggleUnderlineMark, copy, cut, paste} = useEditor();
+  const {editor, toggleBoldMark, toggleItalicMark, toggleUnderlineMark, copy, cut, paste} = useEditor();
 
   return (
     <Root {...props}>
@@ -40,8 +40,8 @@ const EditorToolbar: FC<ComponentProps<typeof Root>> = (props) => {
         <Link value={{}} onSubmit={(dto) => console.log("link", dto)}/>
       </Group>
       <Group>
-        <Undo onClick={() => console.log("undo")}/>
-        <Redo onClick={() => console.log("redo")}/>
+        <Undo onClick={editor?.undo}/>
+        <Redo onClick={editor?.redo}/>
       </Group>
     </Root>
   );

@@ -68,6 +68,17 @@ const Editor: FC<Props> = ({value = [{type: "paragraph", children: []}], onChang
         paste();
         break;
       }
+      case 'z': {
+        event.preventDefault();
+
+        if (event.shiftKey) {
+          editor.redo();
+        } else {
+          editor.undo();
+        }
+
+        break;
+      }
     }
   };
 
