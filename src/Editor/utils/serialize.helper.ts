@@ -5,9 +5,13 @@ import {CustomElement, CustomText} from "../../types/slate";
 const serialize = (node: CustomElement | CustomText): string => {
   if (Text.isText(node)) {
     let string = escapeHtml(node.text)
+
     if (node.bold) {
       string = `<strong>${string}</strong>`
+    } else if (node.italic) {
+      string = `<i>${string}</i>`
     }
+
     return string
   }
 

@@ -3,8 +3,6 @@ import {Editable, Slate} from "slate-react";
 import {RenderElement} from "./components/Elements";
 import {RenderLeaf} from "./components/Leaf";
 import {useEditor} from "./editor.hook";
-import {Simulate} from "react-dom/test-utils";
-import paste = Simulate.paste;
 
 type EditorProps = ComponentProps<typeof Slate>;
 type EditorProp<Prop extends keyof EditorProps> = EditorProps[Prop];
@@ -12,7 +10,7 @@ type EditorProp<Prop extends keyof EditorProps> = EditorProps[Prop];
 type Props = { value?: EditorProp<"value">, onChange?: EditorProp<"onChange"> };
 
 const Editor: FC<Props> = ({value = [{type: "paragraph", children: []}], onChange,}) => {
-  const {editor, toggleCodeBlock, toggleBoldMark, copy, cut, paste} = useEditor();
+  const {editor, toggleCodeBlock, toggleBoldMark, toggleItalicMark, copy, cut, paste} = useEditor();
 
   if (!editor) {
     return null;
@@ -34,6 +32,11 @@ const Editor: FC<Props> = ({value = [{type: "paragraph", children: []}], onChang
       case 'b': {
         event.preventDefault()
         toggleBoldMark();
+        break;
+      }
+      case 'i': {
+        event.preventDefault()
+        toggleItalicMark();
         break;
       }
       case 'c': {

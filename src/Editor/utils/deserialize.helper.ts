@@ -12,13 +12,19 @@ const deserialize = (el: Element, markAttributes = Object.create({})): Array<Sla
 
   // define attributes for text nodes
   switch (el.nodeName) {
-    case 'STRONG':
-      nodeAttributes.bold = true
+    case 'STRONG': {
+      nodeAttributes.bold = true;
+      break;
+    }
+    case 'I': {
+      nodeAttributes.italic = true;
+      break;
+    }
   }
 
   const children = Array.from(el.childNodes)
     .map(node => deserialize(node as Element, nodeAttributes))
-    .flat()
+    .flat();
 
   if (children.length === 0) {
     children.push(jsx('text', nodeAttributes, ''))

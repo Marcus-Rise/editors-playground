@@ -1,4 +1,4 @@
-import {useContext} from "react";
+import {useContext, useMemo} from "react";
 import {Editor, Text, Transforms, Node} from "slate";
 import {EditorContext} from "./editor.context";
 import {serialize} from "./utils/serialize.helper";
@@ -15,6 +15,19 @@ const useEditor = () => {
 
     const [match] = Editor.nodes(editor, {
       match: (n: any) => n.bold === true,
+      universal: true,
+    })
+
+    return !!match
+  };
+
+  const isItalicMarkActive = () => {
+    if (!editor) {
+      return;
+    }
+
+    const [match] = Editor.nodes(editor, {
+      match: (n: any) => n.italic === true,
       universal: true,
     })
 
@@ -38,10 +51,25 @@ const useEditor = () => {
       return;
     }
 
-    const isActive = isBoldMarkActive()
+    const isActive = isBoldMarkActive();
+
     Transforms.setNodes(
       editor,
       {bold: isActive ? undefined : true},
+      {match: (n) => Text.isText(n), split: true}
+    )
+  };
+
+  const toggleItalicMark = () => {
+    if (!editor) {
+      return;
+    }
+
+    const isActive = isItalicMarkActive();
+
+    Transforms.setNodes(
+      editor,
+      {italic: isActive ? undefined : true},
       {match: (n) => Text.isText(n), split: true}
     )
   };
@@ -109,6 +137,7 @@ const useEditor = () => {
   return {
     editor,
     toggleBoldMark,
+    toggleItalicMark,
     toggleCodeBlock,
     copy,
     cut,
