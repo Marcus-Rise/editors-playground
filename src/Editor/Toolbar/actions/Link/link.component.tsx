@@ -1,40 +1,47 @@
-import {FC, useCallback, useState} from 'react';
+import {ComponentProps, FC, useCallback, useState} from 'react';
 import {Action} from '../action';
 import {ReactComponent as LinkOutline} from '@admiral-ds/icons/build/system/LinkOutline.svg';
 import LinkModal from './LinkModal';
 
+type Submit = ComponentProps<typeof LinkModal>["onSubmit"];
 type Props = {
-  value: {
+  value?: {
     text?: string;
     link?: string;
   }
-  onSubmit: (text?: string, link?: string) => void;
+  onSubmit: Submit;
 };
-const Link: FC<Props> = ({onSubmit, value: {link, text}}) => {
+const Link: FC<Props> = ({onSubmit, value}) => {
   const [isOpen, setOpen] = useState(false);
 
-  const handleClick = useCallback(() => {
+  const open = useCallback(() => {
     setOpen(true);
   }, []);
 
-  const handleModalClose = useCallback(() => {
+  const close = useCallback(() => {
     setOpen(false);
   }, []);
+
+  const submit: Submit = useCallback((dto) => {
+    onSubmit(dto);
+
+    close();
+  }, [close, onSubmit]);
 
   return (
     <>
       <Action
         tooltip="Ссылка"
-        onClick={handleClick}
+        onClick={open}
       >
         <LinkOutline/>
       </Action>
       <LinkModal
         isOpen={isOpen}
-        onClose={handleModalClose}
-        onSubmit={onSubmit}
-        initialLink={link}
-        initialText={text}
+        onClose={close}
+        onSubmit={submit}
+        initialLink={value?.link}
+        initialText={value?.text}
       />
     </>
   );

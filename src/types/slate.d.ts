@@ -4,9 +4,9 @@ import {HistoryEditor} from 'slate-history'
 
 type CustomEditor = BaseEditor & ReactEditor & HistoryEditor
 
-type FormattedText = { text: string; bold?: true; italic?: true; underline?: true; color?: string; }
+type FormattedText = { text: string; bold?: true; italic?: true; underline?: true; color?: string; href?: string;}
 
-type CustomText = FormattedText
+type CustomText = FormattedText;
 
 type ParagraphElement = {
   type: 'paragraph'
@@ -30,7 +30,7 @@ type LinkElement = {
   children: CustomText[]
 }
 
-type CustomElement = ParagraphElement | CodeElement | HeadingElement | LinkElement;
+type CustomElement = ParagraphElement | CodeElement | HeadingElement;
 
 declare module 'slate' {
   interface CustomTypes {

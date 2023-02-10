@@ -15,12 +15,16 @@ import {
 } from 'react';
 import { Fieldset, overlayStyles, AddButton, CanselButton } from './styles';
 
+type LinkModalDto = {
+  link?: string;
+}
+
 type LinkModalProps = {
   isOpen: boolean;
   initialLink?: string;
   initialText?: string;
   onClose: () => void;
-  onSubmit: (text?: string, link?: string) => void;
+  onSubmit: (dto: LinkModalDto) => void;
 };
 
 const LinkModal: FC<LinkModalProps> = ({
@@ -31,42 +35,32 @@ const LinkModal: FC<LinkModalProps> = ({
   onSubmit
 }) => {
   const [link, setLink] = useState(initialLink);
-  const [text, setText] = useState(initialText);
 
   const handleClick = useCallback((event: MouseEvent) => {
     event.stopPropagation();
   }, []);
 
   const handleSubmit = useCallback(() => {
-    onSubmit(link, text);
-  }, [onSubmit, link, text]);
+    onSubmit({link});
+  }, [onSubmit, link]);
 
   const reset = useCallback(() => {
     setLink('');
-    setText('');
-  }, [setLink, setText]);
+  }, []);
 
   useEffect(() => {
     if (initialLink ?? initialText) {
       setLink(initialLink);
-      setText(initialText);
     }
 
     if (!isOpen) {
       reset();
     }
-  }, [initialLink, initialText, isOpen]);
+  }, [initialLink, initialText, isOpen, reset]);
 
   const handleLinkChange = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
       setLink(event.target.value);
-    },
-    []
-  );
-
-  const handleTextChange = useCallback(
-    (event: ChangeEvent<HTMLInputElement>) => {
-      setText(event.target.value);
     },
     []
   );
@@ -92,12 +86,6 @@ const LinkModal: FC<LinkModalProps> = ({
       <ModalContent>
         <Fieldset>
           <InputField
-            label="Отображаемый текст"
-            placeholder="Пример текста ссылки"
-            value={text}
-            onChange={handleTextChange}
-          />
-          <InputField
             label="Адрес ссылки"
             placeholder="www.example.ru"
             value={link}
@@ -114,3 +102,4 @@ const LinkModal: FC<LinkModalProps> = ({
 };
 
 export default LinkModal;
+export type {LinkModalDto};

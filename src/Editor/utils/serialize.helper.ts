@@ -22,6 +22,10 @@ const serialize = (node: CustomElement | CustomText): string => {
       string = `<font color="${node.color}">${string}</font>`
     }
 
+    if (node.href) {
+      string = `<a href="${escapeHtml(node.href)}">${string}</a>`
+    }
+
     return string
   }
 
@@ -30,8 +34,6 @@ const serialize = (node: CustomElement | CustomText): string => {
   switch (node.type) {
     case 'paragraph':
       return `<p>${children}</p>`
-    case 'link':
-      return `<a href="${escapeHtml(node.url)}">${children}</a>`
     default:
       return children
   }

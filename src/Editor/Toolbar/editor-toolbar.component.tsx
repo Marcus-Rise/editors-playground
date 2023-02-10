@@ -23,6 +23,7 @@ const EditorToolbar: FC<ComponentProps<typeof Root>> = (props) => {
     toggleItalicMark,
     toggleUnderlineMark,
     toggleColorMark,
+    toggleLinkMark,
     copy,
     cut,
     paste
@@ -42,11 +43,11 @@ const EditorToolbar: FC<ComponentProps<typeof Root>> = (props) => {
         <Color onSelect={toggleColorMark}/>
       </Group>
       <Group>
-        <UnorderedList onClick={() => console.log("unordered")}/>
-        <OrderedList onClick={() => console.log("ordered")}/>
+        <UnorderedList onClick={() => console.debug("unordered")}/>
+        <OrderedList onClick={() => console.debug("ordered")}/>
       </Group>
       <Group>
-        <Link value={{}} onSubmit={(dto) => console.log("link", dto)}/>
+        <Link onSubmit={toggleLinkMark}/>
       </Group>
       <Group>
         <Undo onClick={editor?.undo}/>

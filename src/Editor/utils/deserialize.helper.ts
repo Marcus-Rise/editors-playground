@@ -30,6 +30,12 @@ const deserialize = (el: Element, markAttributes = Object.create({})): Array<Sla
       nodeAttributes.color = color ?? undefined;
       break;
     }
+    case 'A': {
+      const href = el.attributes.getNamedItem("href")?.value;
+
+      nodeAttributes.href = href ?? undefined;
+      break;
+    }
   }
 
   const children = Array.from(el.childNodes)
@@ -49,12 +55,6 @@ const deserialize = (el: Element, markAttributes = Object.create({})): Array<Sla
       return jsx('element', {type: 'quote'}, children)
     case 'P':
       return jsx('element', {type: 'paragraph'}, children)
-    case 'A':
-      return jsx(
-        'element',
-        {type: 'link', url: el.getAttribute('href')},
-        children
-      )
     default:
       return children
   }

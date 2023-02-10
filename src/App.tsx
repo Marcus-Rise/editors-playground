@@ -7,7 +7,12 @@ import {LIGHT_THEME} from "@admiral-ds/react-ui";
 const initialValue: Array<Descendant> = [{
   type: "paragraph",
   children: [{
-    text: "A line of text in a paragraph.",
+    text: "A line of text in a ",
+  }, {
+    text: "paragraph",
+    href: "#",
+  }, {
+    text: "."
   }],
 }];
 

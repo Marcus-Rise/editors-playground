@@ -4,6 +4,7 @@ import {EditorContext} from "./editor.context";
 import {serialize} from "./utils/serialize.helper";
 import {copyToClipboard, readFromClipboard} from "./Toolbar/utils/clipboard.helper";
 import {deserialize} from "./utils/deserialize.helper";
+import {LinkModalDto} from "./Toolbar/actions/Link/LinkModal";
 
 const useEditor = () => {
   const {editor} = useContext(EditorContext);
@@ -67,6 +68,18 @@ const useEditor = () => {
 
     const [match] = Editor.nodes(editor, {
       match: (n: any) => n.type === 'code',
+    })
+
+    return !!match
+  };
+
+  const isLinkMarkActive = () => {
+    if (!editor) {
+      return;
+    }
+
+    const [match] = Editor.nodes(editor, {
+      match: (n: any) => !!n.href,
     })
 
     return !!match
@@ -140,6 +153,22 @@ const useEditor = () => {
     )
   };
 
+  const toggleLinkMark = (dto: LinkModalDto) => {
+    if (!editor) {
+      return;
+    }
+
+    const isActive = isLinkMarkActive();
+
+    Transforms.setNodes(
+      editor,
+      {href: !isActive ? dto.link : undefined},
+      {
+        match: (n) => Text.isText(n), split: true
+      },
+    )
+  };
+
   const copy = () => {
     if (!editor) {
       return null;
@@ -195,6 +224,7 @@ const useEditor = () => {
     toggleUnderlineMark,
     toggleColorMark,
     toggleCodeBlock,
+    toggleLinkMark,
     copy,
     cut,
     paste,
