@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import Container from '../../../../components/Container';
+import {Container} from '../../../../components/Container';
 import { Dropdown as DropdownInternal } from '@admiral-ds/react-ui';
 
 export const Dropdown = styled(DropdownInternal)`

@@ -3,7 +3,7 @@ import {Action} from './action';
 import {
   ReactComponent as TextBoldOutline
 } from '@admiral-ds/icons/build/redact/TextBoldOutline.svg';
-import {IS_APPLE} from '../utils/environment';
+import {IS_APPLE} from '../utils/environment.helper';
 
 const hotKey = IS_APPLE ? '⌘+B' : 'Ctrl+B';
 const tooltip = `Жирный ${hotKey}`;

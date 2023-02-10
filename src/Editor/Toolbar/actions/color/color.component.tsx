@@ -16,7 +16,13 @@ const Color: FC<{onSelect: (color: string) => void}> = ({onSelect}) => {
   const handleClick = useCallback(() => {
     setDropdownOpen(true);
     setActive(true);
-  }, [setActive, isActive]);
+  }, [setActive]);
+
+
+  const handleDropdownClose = useCallback(() => {
+    setDropdownOpen(false);
+    setActive(false);
+  }, []);
 
   /*const handleSelectionChange = useCallback(() => {
     const [_, ...restColors] = Object.values(colors);
@@ -34,17 +40,13 @@ const Color: FC<{onSelect: (color: string) => void}> = ({onSelect}) => {
       onSelect(colors[color]);
       handleDropdownClose();
     },
-    []
+    [colors, handleDropdownClose, onSelect]
   );
-
-  const handleDropdownClose = useCallback(() => {
-    setDropdownOpen(false);
-    setActive(false);
-  }, [setActive]);
 
   const handleMouseDown = useCallback((event: MouseEvent) => {
     event.stopPropagation();
   }, []);
+
   return (
     <>
       {isDropdownOpen && (

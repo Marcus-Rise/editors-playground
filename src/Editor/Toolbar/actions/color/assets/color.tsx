@@ -1,11 +1,12 @@
 import { Theme } from '@admiral-ds/react-ui';
 import { useTheme } from 'styled-components';
+import {FC} from "react";
 
 type Props = {
   color: string;
 };
 
-export const ColorIcon: React.FC<Props> = ({ color }) => {
+const ColorIcon: FC<Props> = ({ color }) => {
   const theme = useTheme() as Theme;
 
   return (
@@ -44,3 +45,5 @@ export const ColorIcon: React.FC<Props> = ({ color }) => {
     </svg>
   );
 };
+
+export {ColorIcon}

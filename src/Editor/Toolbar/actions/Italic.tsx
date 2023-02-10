@@ -3,7 +3,7 @@ import {Action} from './action';
 import {
   ReactComponent as TextItalicOutline
 } from '@admiral-ds/icons/build/redact/TextItalicOutline.svg';
-import {IS_APPLE} from '../utils/environment';
+import {IS_APPLE} from '../utils/environment.helper';
 
 const hotKey = IS_APPLE ? '⌘+I' : 'Ctrl+I';
 const tooltip = `Курсив ${hotKey}`;

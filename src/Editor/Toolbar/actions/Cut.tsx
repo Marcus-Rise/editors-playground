@@ -1,7 +1,7 @@
 import {ComponentProps, FC} from 'react';
 import {Action} from './action';
 import {ReactComponent as CutOutline} from '@admiral-ds/icons/build/service/CutOutline.svg';
-import {IS_APPLE} from '../utils/environment';
+import {IS_APPLE} from '../utils/environment.helper';
 
 const hotKey = IS_APPLE ? '⌘+X' : 'Ctrl+X';
 const tooltip = `Вырезать ${hotKey}`;

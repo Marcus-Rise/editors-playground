@@ -6,7 +6,7 @@ export * from './Italic';
 export * from './Redo';
 export * from './Underline';
 export * from './Undo';
-export * from './Color';
+export * from './color';
 export * from './Link';
 export * from './OrderedList';
 export * from './UnorderedList';
