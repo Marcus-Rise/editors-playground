@@ -10,7 +10,16 @@ type EditorProp<Prop extends keyof EditorProps> = EditorProps[Prop];
 type Props = { value?: EditorProp<"value">, onChange?: EditorProp<"onChange"> };
 
 const Editor: FC<Props> = ({value = [{type: "paragraph", children: []}], onChange,}) => {
-  const {editor, toggleCodeBlock, toggleBoldMark, toggleItalicMark, copy, cut, paste} = useEditor();
+  const {
+    editor,
+    toggleCodeBlock,
+    toggleBoldMark,
+    toggleItalicMark,
+    toggleUnderlineMark,
+    copy,
+    cut,
+    paste
+  } = useEditor();
 
   if (!editor) {
     return null;
@@ -37,6 +46,11 @@ const Editor: FC<Props> = ({value = [{type: "paragraph", children: []}], onChang
       case 'i': {
         event.preventDefault()
         toggleItalicMark();
+        break;
+      }
+      case 'u': {
+        event.preventDefault()
+        toggleUnderlineMark();
         break;
       }
       case 'c': {

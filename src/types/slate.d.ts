@@ -4,7 +4,7 @@ import { HistoryEditor } from 'slate-history'
 
 type CustomEditor = BaseEditor & ReactEditor & HistoryEditor
 
-type FormattedText = { text: string; bold?: true; italic?: true }
+type FormattedText = { text: string; bold?: true; italic?: true; underline?: true }
 
 type CustomText = FormattedText
 

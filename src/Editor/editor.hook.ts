@@ -34,6 +34,19 @@ const useEditor = () => {
     return !!match
   };
 
+  const isUnderlineMarkActive = () => {
+    if (!editor) {
+      return;
+    }
+
+    const [match] = Editor.nodes(editor, {
+      match: (n: any) => n.underline === true,
+      universal: true,
+    })
+
+    return !!match
+  };
+
   const isCodeBlockActive = () => {
     if (!editor) {
       return;
@@ -70,6 +83,20 @@ const useEditor = () => {
     Transforms.setNodes(
       editor,
       {italic: isActive ? undefined : true},
+      {match: (n) => Text.isText(n), split: true}
+    )
+  };
+
+  const toggleUnderlineMark = () => {
+    if (!editor) {
+      return;
+    }
+
+    const isActive = isUnderlineMarkActive();
+
+    Transforms.setNodes(
+      editor,
+      {underline: isActive ? undefined : true},
       {match: (n) => Text.isText(n), split: true}
     )
   };
@@ -138,6 +165,7 @@ const useEditor = () => {
     editor,
     toggleBoldMark,
     toggleItalicMark,
+    toggleUnderlineMark,
     toggleCodeBlock,
     copy,
     cut,

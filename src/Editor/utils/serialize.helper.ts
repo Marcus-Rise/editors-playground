@@ -8,8 +8,14 @@ const serialize = (node: CustomElement | CustomText): string => {
 
     if (node.bold) {
       string = `<strong>${string}</strong>`
-    } else if (node.italic) {
+    }
+
+    if (node.italic) {
       string = `<i>${string}</i>`
+    }
+
+    if (node.underline) {
+      string = `<u>${string}</u>`
     }
 
     return string

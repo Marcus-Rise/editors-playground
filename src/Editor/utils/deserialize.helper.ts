@@ -20,6 +20,10 @@ const deserialize = (el: Element, markAttributes = Object.create({})): Array<Sla
       nodeAttributes.italic = true;
       break;
     }
+    case 'U': {
+      nodeAttributes.underline = true;
+      break;
+    }
   }
 
   const children = Array.from(el.childNodes)

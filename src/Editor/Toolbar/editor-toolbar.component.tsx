@@ -17,7 +17,7 @@ import {
 import {useEditor} from "../editor.hook";
 
 const EditorToolbar: FC<ComponentProps<typeof Root>> = (props) => {
-  const {toggleBoldMark, toggleItalicMark, copy, cut, paste} = useEditor();
+  const {toggleBoldMark, toggleItalicMark, toggleUnderlineMark, copy, cut, paste} = useEditor();
 
   return (
     <Root {...props}>
@@ -29,7 +29,7 @@ const EditorToolbar: FC<ComponentProps<typeof Root>> = (props) => {
       <Group>
         <Bold onClick={toggleBoldMark}/>
         <Italic onClick={toggleItalicMark}/>
-        <Underline onClick={() => console.log("underline")}/>
+        <Underline onClick={toggleUnderlineMark}/>
         <Color onSelect={(color) => console.log("color", color)}/>
       </Group>
       <Group>
