@@ -1,10 +1,12 @@
 import type {ComponentProps, FC} from 'react';
 import {Group, Root} from "./styles";
 import {
-  Bold, Color,
+  Bold,
+  Color,
   Copy,
   Cut,
-  Italic, Link,
+  Italic,
+  Link,
   OrderedList,
   Paste,
   Redo,
@@ -15,20 +17,20 @@ import {
 import {useEditor} from "../editor.hook";
 
 const EditorToolbar: FC<ComponentProps<typeof Root>> = (props) => {
-  const {toggleBoldMark} = useEditor();
+  const {toggleBoldMark, copy, cut, paste} = useEditor();
 
   return (
     <Root {...props}>
       <Group>
-        <Cut onClick={() => console.log("cut")}/>
-        <Copy onClick={() => console.log("copy")}/>
-        <Paste onClick={() => console.log("paste")}/>
+        <Cut onClick={cut}/>
+        <Copy onClick={copy}/>
+        <Paste onClick={paste}/>
       </Group>
       <Group>
         <Bold onClick={toggleBoldMark}/>
         <Italic onClick={() => console.log("italic")}/>
         <Underline onClick={() => console.log("underline")}/>
-        <Color onSelect={(color) => console.log("color", color)} />
+        <Color onSelect={(color) => console.log("color", color)}/>
       </Group>
       <Group>
         <UnorderedList onClick={() => console.log("unordered")}/>
