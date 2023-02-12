@@ -56,6 +56,12 @@ const deserialize = (el: Element, markAttributes?: Partial<FormattedText>): Desc
       return jsx('element', {type: 'quote'}, children)
     case 'P':
       return jsx('element', {type: 'paragraph'}, children)
+    case 'LI':
+      return jsx('element', {type: 'list_item'}, children)
+    case 'OL':
+      return jsx('element', {type: 'list_ordered'}, children)
+    case 'UL':
+      return jsx('element', {type: 'list_unordered'}, children)
     default:
       return children
   }

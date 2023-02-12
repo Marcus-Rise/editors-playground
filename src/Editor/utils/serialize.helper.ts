@@ -33,6 +33,12 @@ const serialize = (node: Descendant): string => {
   switch (node.type) {
     case 'paragraph':
       return `<p>${children}</p>`
+    case 'list_item':
+      return `<li>${children}</li>`
+    case 'list_ordered':
+      return `<ol>${children}</ol>`
+    case 'list_unordered':
+      return `<ul>${children}</ul>`
     default:
       return children
   }
