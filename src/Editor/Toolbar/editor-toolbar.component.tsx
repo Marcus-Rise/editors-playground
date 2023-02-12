@@ -25,6 +25,7 @@ const EditorToolbar: FC<ComponentProps<typeof Root>> = (props) => {
     toggleItalicMark,
     isUnderlineMarkActive,
     toggleUnderlineMark,
+    colorCurrentValue,
     isColorMarkActive,
     toggleColorMark,
     linkCurrentValue,
@@ -46,7 +47,7 @@ const EditorToolbar: FC<ComponentProps<typeof Root>> = (props) => {
         <Bold onClick={toggleBoldMark} isActive={isBoldMarkActive()}/>
         <Italic onClick={toggleItalicMark} isActive={isItalicMarkActive()}/>
         <Underline onClick={toggleUnderlineMark} isActive={isUnderlineMarkActive()}/>
-        <Color onSelect={toggleColorMark} isActive={isColorMarkActive()}/>
+        <Color value={colorCurrentValue()} onSelect={toggleColorMark} isActive={isColorMarkActive()}/>
       </Group>
       <Group>
         <UnorderedList onClick={() => console.debug("unordered")}/>

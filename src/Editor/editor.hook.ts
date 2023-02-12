@@ -59,15 +59,28 @@ const useEditor = () => {
     )
   }, [editor, isUnderlineMarkActive]);
 
-  const toggleColorMark = useCallback((color: string) => {
-    const isActive = isColorMarkActive();
+  const colorCurrentValue = useCallback((): FormattedText["color"] => {
+    const [nodes] = Editor.nodes<FormattedText>(editor, {
+      match: (n) => Text.isText(n) && !!n.color,
+      mode: "all",
+    });
 
+    if (!nodes) {
+      return;
+    }
+
+    const [node] = nodes;
+
+    return node.color;
+  }, [editor]);
+
+  const toggleColorMark = useCallback((color: FormattedText["color"]) => {
     Transforms.setNodes(
       editor,
-      {color: isActive ? undefined : color},
+      {color: color},
       {match: (n) => Text.isText(n), split: true}
     )
-  }, [editor, isColorMarkActive]);
+  }, [editor]);
 
   const linkCurrentValue = useCallback((): FormattedText["href"] => {
     const [nodes] = Editor.nodes<FormattedText>(editor, {
@@ -142,6 +155,7 @@ const useEditor = () => {
     isUnderlineMarkActive,
     toggleUnderlineMark,
 
+    colorCurrentValue,
     isColorMarkActive,
     toggleColorMark,
 

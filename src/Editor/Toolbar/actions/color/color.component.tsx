@@ -5,12 +5,14 @@ import {Theme} from '@admiral-ds/react-ui';
 import {useTheme} from 'styled-components';
 import {getColors} from './colors';
 import {ColorContainer, ColorItem, Dropdown} from './styles';
+import {FormattedText} from "../../../../types/slate";
 
 type Props = Omit<ComponentProps<typeof Action>, "tooltip" | "children"> & {
   onSelect: (color: string) => void;
+  value?: FormattedText["color"];
 };
 
-const Color: FC<Props> = ({onSelect, ...props}) => {
+const Color: FC<Props> = ({onSelect, value = "", ...props}) => {
   const theme = useTheme() as Theme;
   const colors = getColors(theme);
   const [isDropdownOpen, setDropdownOpen] = useState(false);
@@ -24,16 +26,6 @@ const Color: FC<Props> = ({onSelect, ...props}) => {
   const handleDropdownClose = useCallback(() => {
     setDropdownOpen(false);
   }, []);
-
-  /*const handleSelectionChange = useCallback(() => {
-    const [_, ...restColors] = Object.values(colors);
-
-    setActive(
-      restColors.includes(
-        convertRGBtoHex(document.queryCommandValue(COMMAND)).toUpperCase()
-      )
-    );
-  }, [setActive, isActive, colors]);*/
 
   const handleItemMouseDown = useCallback(
     (color: string, event: MouseEvent) => {
@@ -74,7 +66,7 @@ const Color: FC<Props> = ({onSelect, ...props}) => {
         ref={ref}
         onClick={handleClick}
       >
-        <ColorIcon color={""} />
+        <ColorIcon color={value || theme.color['Neutral/Neutral 50']} />
       </Action>
     </>
   );

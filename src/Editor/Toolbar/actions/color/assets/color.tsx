@@ -1,15 +1,16 @@
-import { Theme } from '@admiral-ds/react-ui';
-import { useTheme } from 'styled-components';
+import styled from 'styled-components';
 import {FC} from "react";
 
 type Props = {
-  color: string;
+  color?: string;
 };
 
-const ColorIcon: FC<Props> = ({ color }) => {
-  const theme = useTheme() as Theme;
+const Rect = styled.rect`
+  fill: ${(props) => props.fill} !important;
+`;
 
-  return (
+const ColorIcon: FC<Props> = ({color}) =>
+  (
     <svg
       width="20"
       height="20"
@@ -22,13 +23,13 @@ const ColorIcon: FC<Props> = ({ color }) => {
           d="M14.167 14.4418C14.167 14.3168 14.2156 14.1988 14.3128 14.1085C14.5003 13.9418 14.7851 13.9557 14.9517 14.1363L17.1366 16.5621L19.2323 14.139C19.399 13.9515 19.6837 13.9445 19.8712 14.1112C20.0518 14.2779 20.0657 14.5626 19.899 14.7501L17.4977 17.5134C17.3033 17.7287 16.97 17.7287 16.7755 17.5134L14.2851 14.7474C14.2017 14.6571 14.167 14.5529 14.167 14.4418Z"
           fill="#747782"
         />
-        <rect
+        <Rect
           x="0.833008"
           y="15"
           width="11.6667"
           height="1.25"
           rx="0.625"
-          fill={color || theme.color['Neutral/Neutral 00']}
+          fill={color}
         />
         <path
           fillRule="evenodd"
@@ -39,11 +40,10 @@ const ColorIcon: FC<Props> = ({ color }) => {
       </g>
       <defs>
         <clipPath id="clip0_21338_69235">
-          <rect width="20" height="20" fill="white" />
+          <rect width="20" height="20" fill="white"/>
         </clipPath>
       </defs>
     </svg>
   );
-};
 
 export {ColorIcon}
