@@ -19,14 +19,19 @@ import {useEditor} from "../editor.hook";
 const EditorToolbar: FC<ComponentProps<typeof Root>> = (props) => {
   const {
     editor,
+    isBoldMarkActive,
     toggleBoldMark,
+    isItalicMarkActive,
     toggleItalicMark,
+    isUnderlineMarkActive,
     toggleUnderlineMark,
+    isColorMarkActive,
     toggleColorMark,
+    isLinkMarkActive,
     toggleLinkMark,
     copy,
     cut,
-    paste
+    paste,
   } = useEditor();
 
   return (
@@ -37,21 +42,21 @@ const EditorToolbar: FC<ComponentProps<typeof Root>> = (props) => {
         <Paste onClick={paste}/>
       </Group>
       <Group>
-        <Bold onClick={toggleBoldMark}/>
-        <Italic onClick={toggleItalicMark}/>
-        <Underline onClick={toggleUnderlineMark}/>
-        <Color onSelect={toggleColorMark}/>
+        <Bold onClick={toggleBoldMark} isActive={isBoldMarkActive()}/>
+        <Italic onClick={toggleItalicMark} isActive={isItalicMarkActive()}/>
+        <Underline onClick={toggleUnderlineMark} isActive={isUnderlineMarkActive()}/>
+        <Color onSelect={toggleColorMark} isActive={isColorMarkActive()}/>
       </Group>
       <Group>
         <UnorderedList onClick={() => console.debug("unordered")}/>
         <OrderedList onClick={() => console.debug("ordered")}/>
       </Group>
       <Group>
-        <Link onSubmit={toggleLinkMark}/>
+        <Link onSubmit={toggleLinkMark} isActive={isLinkMarkActive()}/>
       </Group>
       <Group>
-        <Undo onClick={editor?.undo}/>
-        <Redo onClick={editor?.redo}/>
+        <Undo onClick={editor.undo}/>
+        <Redo onClick={editor.redo}/>
       </Group>
     </Root>
   );

@@ -12,21 +12,27 @@ const initialValue: Array<Descendant> = [{
     text: "paragraph",
     href: "#",
   }, {
-    text: "."
-  }],
+    text: ". "
+  }, {
+    text: "Text "
+  }, {
+    text: "color",
+    color: "#1BA049"
+  },
+  ],
 }];
 
 const Main = styled.main`
-padding: 1rem;
+  padding: 1rem;
 `;
 
 const App: FC = () =>
   (
     <ThemeProvider theme={LIGHT_THEME}>
       <Main>
-        <EditorContextProvider>
-          <EditorToolbar />
-          <Editor value={initialValue} onChange={console.log}/>
+        <EditorContextProvider value={initialValue} onChange={console.log}>
+          <EditorToolbar/>
+          <Editor/>
         </EditorContextProvider>
       </Main>
     </ThemeProvider>

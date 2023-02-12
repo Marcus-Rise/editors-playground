@@ -1,95 +1,36 @@
-import {useContext} from "react";
-import {Editor, Text, Transforms} from "slate";
-import {EditorContext} from "./editor.context";
+import {Editor, Node, Text, Transforms} from "slate";
 import {serialize} from "./utils/serialize.helper";
 import {copyToClipboard, readFromClipboard} from "./Toolbar/utils/clipboard.helper";
 import {deserialize} from "./utils/deserialize.helper";
 import {LinkModalDto} from "./Toolbar/actions/Link/LinkModal";
+import {FormattedText} from "../types/slate";
+import {useSlate,} from "slate-react";
+import {useCallback} from "react";
+
+const isFormatActive = (editor: Editor, format: keyof FormattedText): boolean => {
+  const [match] = Editor.nodes(editor, {
+    match: (n: Node) => Text.isText(n) && !!n[format],
+    universal: true,
+    mode: "all",
+  })
+
+  return !!match;
+}
 
 const useEditor = () => {
-  const {editor} = useContext(EditorContext);
+  const editor = useSlate();
 
-  const isBoldMarkActive = () => {
-    if (!editor) {
-      return;
-    }
+  const isBoldMarkActive = useCallback(() => isFormatActive(editor, "bold"), [editor]);
 
-    const [match] = Editor.nodes(editor, {
-      match: (n: any) => n.bold === true,
-      universal: true,
-    })
+  const isItalicMarkActive = useCallback(() => isFormatActive(editor, "italic"), [editor]);
 
-    return !!match
-  };
+  const isUnderlineMarkActive = useCallback(() => isFormatActive(editor, "underline"), [editor]);
 
-  const isItalicMarkActive = () => {
-    if (!editor) {
-      return;
-    }
+  const isColorMarkActive = useCallback(() => isFormatActive(editor, "color"), [editor]);
 
-    const [match] = Editor.nodes(editor, {
-      match: (n: any) => n.italic === true,
-      universal: true,
-    })
+  const isLinkMarkActive = useCallback(() => isFormatActive(editor, "href"), [editor]);
 
-    return !!match
-  };
-
-  const isUnderlineMarkActive = () => {
-    if (!editor) {
-      return;
-    }
-
-    const [match] = Editor.nodes(editor, {
-      match: (n: any) => n.underline === true,
-      universal: true,
-    })
-
-    return !!match
-  };
-
-  const isColorMarkActive = () => {
-    if (!editor) {
-      return;
-    }
-
-    const [match] = Editor.nodes(editor, {
-      match: (n: any) => !!n.color,
-      universal: true,
-    })
-
-    return !!match
-  };
-
-  const isCodeBlockActive = () => {
-    if (!editor) {
-      return;
-    }
-
-    const [match] = Editor.nodes(editor, {
-      match: (n: any) => n.type === 'code',
-    })
-
-    return !!match
-  };
-
-  const isLinkMarkActive = () => {
-    if (!editor) {
-      return;
-    }
-
-    const [match] = Editor.nodes(editor, {
-      match: (n: any) => !!n.href,
-    })
-
-    return !!match
-  };
-
-  const toggleBoldMark = () => {
-    if (!editor) {
-      return;
-    }
-
+  const toggleBoldMark = useCallback(() => {
     const isActive = isBoldMarkActive();
 
     Transforms.setNodes(
@@ -97,13 +38,9 @@ const useEditor = () => {
       {bold: isActive ? undefined : true},
       {match: (n) => Text.isText(n), split: true}
     )
-  };
+  }, [editor, isBoldMarkActive]);
 
-  const toggleItalicMark = () => {
-    if (!editor) {
-      return;
-    }
-
+  const toggleItalicMark = useCallback(() => {
     const isActive = isItalicMarkActive();
 
     Transforms.setNodes(
@@ -111,13 +48,9 @@ const useEditor = () => {
       {italic: isActive ? undefined : true},
       {match: (n) => Text.isText(n), split: true}
     )
-  };
+  }, [editor, isItalicMarkActive]);
 
-  const toggleUnderlineMark = () => {
-    if (!editor) {
-      return;
-    }
-
+  const toggleUnderlineMark = useCallback(() => {
     const isActive = isUnderlineMarkActive();
 
     Transforms.setNodes(
@@ -125,13 +58,9 @@ const useEditor = () => {
       {underline: isActive ? undefined : true},
       {match: (n) => Text.isText(n), split: true}
     )
-  };
+  }, [editor, isUnderlineMarkActive]);
 
-  const toggleColorMark = (color: string) => {
-    if (!editor) {
-      return;
-    }
-
+  const toggleColorMark = useCallback((color: string) => {
     const isActive = isColorMarkActive();
 
     Transforms.setNodes(
@@ -139,25 +68,9 @@ const useEditor = () => {
       {color: isActive ? undefined : color},
       {match: (n) => Text.isText(n), split: true}
     )
-  };
+  }, [editor, isColorMarkActive]);
 
-  const toggleCodeBlock = () => {
-    if (!editor) {
-      return;
-    }
-
-    Transforms.setNodes(
-      editor,
-      {type: isCodeBlockActive() ? undefined : 'code'},
-      // { match: (n: any) => Editor.isBlock(editor, n) }
-    )
-  };
-
-  const toggleLinkMark = (dto: LinkModalDto) => {
-    if (!editor) {
-      return;
-    }
-
+  const toggleLinkMark = useCallback((dto: LinkModalDto) => {
     const isActive = isLinkMarkActive();
 
     Transforms.setNodes(
@@ -167,13 +80,9 @@ const useEditor = () => {
         match: (n) => Text.isText(n), split: true
       },
     )
-  };
+  }, [editor, isLinkMarkActive]);
 
-  const copy = () => {
-    if (!editor) {
-      return null;
-    }
-
+  const copy = useCallback(() => {
     const fragment = editor.getFragment();
 
     console.debug("copy", fragment);
@@ -183,23 +92,15 @@ const useEditor = () => {
     console.debug("copy html", html)
 
     copyToClipboard(html);
-  };
+  }, [editor]);
 
-  const cut = () => {
-    if (!editor) {
-      return null;
-    }
-
+  const cut = useCallback(() => {
     copy();
 
     editor.deleteFragment();
-  };
+  }, [copy, editor]);
 
-  const paste = async () => {
-    if (!editor) {
-      return null;
-    }
-
+  const paste = useCallback(async () => {
     const html = await readFromClipboard();
 
     console.debug("paste restored html", html);
@@ -215,15 +116,19 @@ const useEditor = () => {
     } else {
       editor.insertNode(fragment);
     }
-  }
+  }, [editor])
 
   return {
     editor,
+    isBoldMarkActive,
     toggleBoldMark,
+    isItalicMarkActive,
     toggleItalicMark,
+    isUnderlineMarkActive,
     toggleUnderlineMark,
+    isColorMarkActive,
     toggleColorMark,
-    toggleCodeBlock,
+    isLinkMarkActive,
     toggleLinkMark,
     copy,
     cut,

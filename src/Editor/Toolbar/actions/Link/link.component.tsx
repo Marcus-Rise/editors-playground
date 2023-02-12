@@ -4,14 +4,14 @@ import {ReactComponent as LinkOutline} from '@admiral-ds/icons/build/system/Link
 import LinkModal from './LinkModal';
 
 type Submit = ComponentProps<typeof LinkModal>["onSubmit"];
-type Props = {
+type Props = Omit<ComponentProps<typeof Action>, "tooltip" | "children"> & {
   value?: {
     text?: string;
     link?: string;
   }
   onSubmit: Submit;
 };
-const Link: FC<Props> = ({onSubmit, value}) => {
+const Link: FC<Props> = ({onSubmit, value, ...props}) => {
   const [isOpen, setOpen] = useState(false);
 
   const open = useCallback(() => {
@@ -31,6 +31,7 @@ const Link: FC<Props> = ({onSubmit, value}) => {
   return (
     <>
       <Action
+        {...props}
         tooltip="Ссылка"
         onClick={open}
       >

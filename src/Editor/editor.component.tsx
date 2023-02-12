@@ -1,18 +1,13 @@
-import type {ComponentProps, FC, KeyboardEventHandler} from 'react';
-import {Editable, Slate} from "slate-react";
+import type {FC, KeyboardEventHandler} from 'react';
+import {useCallback} from "react";
+import {Editable} from "slate-react";
 import {RenderElement} from "./components/Elements";
 import {RenderLeaf} from "./components/Leaf";
 import {useEditor} from "./editor.hook";
 
-type EditorProps = ComponentProps<typeof Slate>;
-type EditorProp<Prop extends keyof EditorProps> = EditorProps[Prop];
-
-type Props = { value?: EditorProp<"value">, onChange?: EditorProp<"onChange"> };
-
-const Editor: FC<Props> = ({value = [{type: "paragraph", children: []}], onChange,}) => {
+const Editor: FC = () => {
   const {
     editor,
-    toggleCodeBlock,
     toggleBoldMark,
     toggleItalicMark,
     toggleUnderlineMark,
@@ -21,23 +16,12 @@ const Editor: FC<Props> = ({value = [{type: "paragraph", children: []}], onChang
     paste
   } = useEditor();
 
-  if (!editor) {
-    return null;
-  }
-
-  const handleHotKeys: KeyboardEventHandler = (event) => {
+  const handleHotKeys: KeyboardEventHandler = useCallback((event) => {
     if (!event.ctrlKey && !event.metaKey) {
       return;
     }
 
     switch (event.key) {
-      case '`': {
-        // Prevent the "`" from being inserted by default.
-
-        event.preventDefault()
-        toggleCodeBlock();
-        break;
-      }
       case 'b': {
         event.preventDefault()
         toggleBoldMark();
@@ -80,16 +64,14 @@ const Editor: FC<Props> = ({value = [{type: "paragraph", children: []}], onChang
         break;
       }
     }
-  };
+  }, [copy, cut, editor, paste, toggleBoldMark, toggleItalicMark, toggleUnderlineMark]);
 
   return (
-    <Slate editor={editor} value={value} onChange={onChange}>
-      <Editable
-        renderElement={RenderElement}
-        renderLeaf={RenderLeaf}
-        onKeyDown={handleHotKeys}
-      />
-    </Slate>
+    <Editable
+      renderElement={RenderElement}
+      renderLeaf={RenderLeaf}
+      onKeyDown={handleHotKeys}
+    />
   );
 };
 

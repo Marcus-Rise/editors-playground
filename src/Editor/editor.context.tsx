@@ -1,21 +1,15 @@
-import {createContext, FC, PropsWithChildren, useMemo} from "react";
-import {CustomEditor} from "../types/slate";
-import {withReact} from "slate-react";
+import {ComponentProps, FC, PropsWithChildren, useMemo} from "react";
+import {Slate, withReact} from "slate-react";
 import {withHistory} from "slate-history";
 import {createEditor} from "slate";
 
-type State = {
-  editor: CustomEditor | null;
-}
+type EditorProps = ComponentProps<typeof Slate>;
+type Props = { value?: EditorProps["value"], onChange?: EditorProps['onChange'] };
 
-const defaultState: State = {editor: null};
-
-const EditorContext = createContext<State>(defaultState);
-
-const EditorContextProvider: FC<PropsWithChildren> = ({children}) => {
+const EditorContextProvider: FC<PropsWithChildren<Props>> = ({children, value = [],...props}) => {
   const editor = useMemo(() => withReact(withHistory(createEditor())), []);
 
-  return <EditorContext.Provider value={{editor}}>{children}</EditorContext.Provider>;
+  return <Slate {...props} value={value} editor={editor}>{children}</Slate>;
 }
 
-export {EditorContextProvider, EditorContext};
+export {EditorContextProvider};

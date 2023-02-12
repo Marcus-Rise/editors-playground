@@ -1,4 +1,4 @@
-import {FC, MouseEvent, useCallback, useRef, useState} from 'react';
+import {ComponentProps, FC, MouseEvent, useCallback, useRef, useState} from 'react';
 import {Action} from '../action';
 import {ColorIcon} from './assets/color';
 import {Theme} from '@admiral-ds/react-ui';
@@ -6,22 +6,23 @@ import {useTheme} from 'styled-components';
 import {getColors} from './colors';
 import {ColorContainer, ColorItem, Dropdown} from './styles';
 
-const Color: FC<{onSelect: (color: string) => void}> = ({onSelect}) => {
+type Props = Omit<ComponentProps<typeof Action>, "tooltip" | "children"> & {
+  onSelect: (color: string) => void;
+};
+
+const Color: FC<Props> = ({onSelect, ...props}) => {
   const theme = useTheme() as Theme;
   const colors = getColors(theme);
-  const [isActive, setActive] = useState(false);
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
   const handleClick = useCallback(() => {
     setDropdownOpen(true);
-    setActive(true);
-  }, [setActive]);
+  }, []);
 
 
   const handleDropdownClose = useCallback(() => {
     setDropdownOpen(false);
-    setActive(false);
   }, []);
 
   /*const handleSelectionChange = useCallback(() => {
@@ -68,10 +69,10 @@ const Color: FC<{onSelect: (color: string) => void}> = ({onSelect}) => {
         </Dropdown>
       )}
       <Action
+        {...props}
         tooltip="Цвет"
         ref={ref}
         onClick={handleClick}
-        isActive={isActive}
       >
         <ColorIcon color={""} />
       </Action>
