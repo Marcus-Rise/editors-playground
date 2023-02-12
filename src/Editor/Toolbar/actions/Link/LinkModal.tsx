@@ -21,20 +21,18 @@ type LinkModalDto = {
 
 type LinkModalProps = {
   isOpen: boolean;
-  initialLink?: string;
-  initialText?: string;
+  value?: string;
   onClose: () => void;
   onSubmit: (dto: LinkModalDto) => void;
 };
 
 const LinkModal: FC<LinkModalProps> = ({
   isOpen,
-  initialLink,
-  initialText,
+  value,
   onClose,
   onSubmit
 }) => {
-  const [link, setLink] = useState(initialLink);
+  const [link, setLink] = useState(value);
 
   const handleClick = useCallback((event: MouseEvent) => {
     event.stopPropagation();
@@ -49,14 +47,14 @@ const LinkModal: FC<LinkModalProps> = ({
   }, []);
 
   useEffect(() => {
-    if (initialLink ?? initialText) {
-      setLink(initialLink);
+    if (value) {
+      setLink(value);
     }
 
     if (!isOpen) {
       reset();
     }
-  }, [initialLink, initialText, isOpen, reset]);
+  }, [isOpen, reset, value]);
 
   const handleLinkChange = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
@@ -67,7 +65,7 @@ const LinkModal: FC<LinkModalProps> = ({
 
   const container = useMemo(() => {
     return document.querySelector('[role=dialog]') ?? document.body;
-  }, [isOpen]);
+  }, []);
 
   if (!isOpen) {
     return null;

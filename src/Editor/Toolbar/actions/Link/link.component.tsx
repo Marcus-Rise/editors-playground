@@ -2,13 +2,11 @@ import {ComponentProps, FC, useCallback, useState} from 'react';
 import {Action} from '../action';
 import {ReactComponent as LinkOutline} from '@admiral-ds/icons/build/system/LinkOutline.svg';
 import LinkModal from './LinkModal';
+import {FormattedText} from "../../../../types/slate";
 
 type Submit = ComponentProps<typeof LinkModal>["onSubmit"];
 type Props = Omit<ComponentProps<typeof Action>, "tooltip" | "children"> & {
-  value?: {
-    text?: string;
-    link?: string;
-  }
+  value?: FormattedText["href"];
   onSubmit: Submit;
 };
 const Link: FC<Props> = ({onSubmit, value, ...props}) => {
@@ -41,8 +39,7 @@ const Link: FC<Props> = ({onSubmit, value, ...props}) => {
         isOpen={isOpen}
         onClose={close}
         onSubmit={submit}
-        initialLink={value?.link}
-        initialText={value?.text}
+        value={value}
       />
     </>
   );

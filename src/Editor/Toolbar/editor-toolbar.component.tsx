@@ -27,6 +27,7 @@ const EditorToolbar: FC<ComponentProps<typeof Root>> = (props) => {
     toggleUnderlineMark,
     isColorMarkActive,
     toggleColorMark,
+    linkCurrentValue,
     isLinkMarkActive,
     toggleLinkMark,
     copy,
@@ -52,7 +53,7 @@ const EditorToolbar: FC<ComponentProps<typeof Root>> = (props) => {
         <OrderedList onClick={() => console.debug("ordered")}/>
       </Group>
       <Group>
-        <Link onSubmit={toggleLinkMark} isActive={isLinkMarkActive()}/>
+        <Link value={linkCurrentValue()} onSubmit={toggleLinkMark} isActive={isLinkMarkActive()}/>
       </Group>
       <Group>
         <Undo onClick={editor.undo}/>

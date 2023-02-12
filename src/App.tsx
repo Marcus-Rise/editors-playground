@@ -10,7 +10,7 @@ const initialValue: Array<Descendant> = [{
     text: "A line of text in a ",
   }, {
     text: "paragraph",
-    href: "#",
+    href: "www.cats.com",
   }, {
     text: ". "
   }, {

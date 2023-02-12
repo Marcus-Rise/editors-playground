@@ -10,7 +10,6 @@ import {useCallback} from "react";
 const isFormatActive = (editor: Editor, format: keyof FormattedText): boolean => {
   const [match] = Editor.nodes(editor, {
     match: (n: Node) => Text.isText(n) && !!n[format],
-    universal: true,
     mode: "all",
   })
 
@@ -70,17 +69,30 @@ const useEditor = () => {
     )
   }, [editor, isColorMarkActive]);
 
-  const toggleLinkMark = useCallback((dto: LinkModalDto) => {
-    const isActive = isLinkMarkActive();
+  const linkCurrentValue = useCallback((): FormattedText["href"] => {
+    const [nodes] = Editor.nodes<FormattedText>(editor, {
+      match: (n) => Text.isText(n) && !!n.href,
+      mode: "all",
+    });
 
+    if (!nodes) {
+      return;
+    }
+
+    const [node] = nodes;
+
+    return node.href;
+  }, [editor]);
+
+  const toggleLinkMark = useCallback((dto: LinkModalDto) => {
     Transforms.setNodes(
       editor,
-      {href: !isActive ? dto.link : undefined},
+      {href: dto.link},
       {
         match: (n) => Text.isText(n), split: true
       },
     )
-  }, [editor, isLinkMarkActive]);
+  }, [editor]);
 
   const copy = useCallback(() => {
     const fragment = editor.getFragment();
@@ -120,16 +132,23 @@ const useEditor = () => {
 
   return {
     editor,
+
     isBoldMarkActive,
     toggleBoldMark,
+
     isItalicMarkActive,
     toggleItalicMark,
+
     isUnderlineMarkActive,
     toggleUnderlineMark,
+
     isColorMarkActive,
     toggleColorMark,
+
+    linkCurrentValue,
     isLinkMarkActive,
     toggleLinkMark,
+
     copy,
     cut,
     paste,
