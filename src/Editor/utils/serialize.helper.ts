@@ -1,8 +1,7 @@
-import {Text} from "slate";
+import {Descendant, Text} from "slate";
 import escapeHtml from "escape-html";
-import {CustomElement, CustomText} from "../../types/slate";
 
-const serialize = (node: CustomElement | CustomText): string => {
+const serialize = (node: Descendant): string => {
   if (Text.isText(node)) {
     let string = escapeHtml(node.text)
 
@@ -29,7 +28,7 @@ const serialize = (node: CustomElement | CustomText): string => {
     return string
   }
 
-  const children = node.children.map(n => serialize(n)).join('')
+  const children = node.children.map((n: Descendant) => serialize(n)).join('')
 
   switch (node.type) {
     case 'paragraph':

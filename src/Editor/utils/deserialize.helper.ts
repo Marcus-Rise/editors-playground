@@ -1,7 +1,8 @@
 import {jsx} from 'slate-hyperscript'
-import {Node as SlateNode} from "slate";
+import {Descendant} from "slate";
+import {FormattedText} from "../../types/slate";
 
-const deserialize = (el: Element, markAttributes = Object.create({})): Array<SlateNode> | SlateNode => {
+const deserialize = (el: Element, markAttributes?: Partial<FormattedText>): Descendant[] | Descendant => {
   if (el.nodeType === Node.TEXT_NODE) {
     return [jsx('text', markAttributes, el.textContent)]
   } else if (el.nodeType !== Node.ELEMENT_NODE) {
