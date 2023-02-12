@@ -1,4 +1,3 @@
-// Define a React component to render leaves with bold text.
 import {RenderLeafProps} from "slate-react";
 import {CSSProperties} from "react";
 

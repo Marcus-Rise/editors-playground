@@ -13,24 +13,13 @@ type ParagraphElement = {
   children: CustomText[]
 }
 
-type CodeElement = {
-  type: 'code'
-  children: CustomText[]
-}
-
 type HeadingElement = {
   type: 'heading'
   level: number
   children: CustomText[]
 }
 
-type LinkElement = {
-  type: 'link'
-  url: string;
-  children: CustomText[]
-}
-
-type CustomElement = ParagraphElement | CodeElement | HeadingElement;
+type CustomElement = ParagraphElement | HeadingElement;
 
 declare module 'slate' {
   interface CustomTypes {
