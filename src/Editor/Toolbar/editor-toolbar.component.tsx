@@ -34,6 +34,10 @@ const EditorToolbar: FC<ComponentProps<typeof Root>> = (props) => {
     copy,
     cut,
     paste,
+    toggleListOrderedBlock,
+    isListOrderedActive,
+    toggleListUnOrderedBlock,
+    isListUnOrderedActive,
   } = useEditor();
 
   return (
@@ -50,8 +54,8 @@ const EditorToolbar: FC<ComponentProps<typeof Root>> = (props) => {
         <Color value={colorCurrentValue()} onSelect={toggleColorMark} isActive={isColorMarkActive()}/>
       </Group>
       <Group>
-        <UnorderedList onClick={() => console.debug("unordered")}/>
-        <OrderedList onClick={() => console.debug("ordered")}/>
+        <UnorderedList isActive={isListUnOrderedActive()} onClick={toggleListUnOrderedBlock}/>
+        <OrderedList isActive={isListOrderedActive()} onClick={toggleListOrderedBlock}/>
       </Group>
       <Group>
         <Link value={linkCurrentValue()} onSubmit={toggleLinkMark} isActive={isLinkMarkActive()}/>
