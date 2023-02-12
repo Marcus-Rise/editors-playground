@@ -66,7 +66,7 @@ const Color: FC<Props> = ({onSelect, value = "", ...props}) => {
         ref={ref}
         onClick={handleClick}
       >
-        <ColorIcon color={value || theme.color['Neutral/Neutral 50']} />
+        <ColorIcon color={value || colors['Neutral/Neutral 90']} />
       </Action>
     </>
   );
