@@ -10,3 +10,4 @@ export * from './color';
 export * from './Link';
 export * from './OrderedList';
 export * from './UnorderedList';
+export * from './table'

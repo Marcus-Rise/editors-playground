@@ -10,6 +10,7 @@ import {
   OrderedList,
   Paste,
   Redo,
+  TableAction,
   Underline,
   Undo,
   UnorderedList
@@ -38,6 +39,8 @@ const EditorToolbar: FC<ComponentProps<typeof Root>> = (props) => {
     isListOrderedActive,
     toggleListUnOrderedBlock,
     isListUnOrderedActive,
+    isTableActive,
+    toggleTableBlock,
   } = useEditor();
 
   return (
@@ -54,8 +57,8 @@ const EditorToolbar: FC<ComponentProps<typeof Root>> = (props) => {
         <Color value={colorCurrentValue()} onSelect={toggleColorMark} isActive={isColorMarkActive()}/>
       </Group>
       <Group>
-        <UnorderedList isActive={isListUnOrderedActive()} onClick={toggleListUnOrderedBlock}/>
-        <OrderedList isActive={isListOrderedActive()} onClick={toggleListOrderedBlock}/>
+        <UnorderedList disabled={isTableActive()}  isActive={isListUnOrderedActive()} onClick={toggleListUnOrderedBlock}/>
+        <OrderedList disabled={isTableActive()} isActive={isListOrderedActive()} onClick={toggleListOrderedBlock}/>
       </Group>
       <Group>
         <Link value={linkCurrentValue()} onSubmit={toggleLinkMark} isActive={isLinkMarkActive()}/>
@@ -63,6 +66,9 @@ const EditorToolbar: FC<ComponentProps<typeof Root>> = (props) => {
       <Group>
         <Undo onClick={editor.undo}/>
         <Redo onClick={editor.redo}/>
+      </Group>
+      <Group>
+        <TableAction isActive={isTableActive()} onClick={toggleTableBlock}/>
       </Group>
     </Root>
   );

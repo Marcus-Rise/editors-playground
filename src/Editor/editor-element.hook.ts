@@ -5,7 +5,7 @@ import {useCallback} from "react";
 type ElementType = CustomElement["type"];
 
 const isBlockActive = (editor: CustomEditor, type: ElementType): boolean => {
-  const { selection } = editor
+  const {selection} = editor
 
   if (!selection) {
     return false;
@@ -31,27 +31,48 @@ const toggleBlock = (editor: CustomEditor, type: ElementType) => {
     editor,
     type,
   )
-  const isList = LIST_TYPES.includes(type)
+  const isList = LIST_TYPES.includes(type);
+  const isTable = type === "table";
 
   Transforms.unwrapNodes(editor, {
     match: n =>
       !Editor.isEditor(n) &&
       Element.isElement(n) &&
-      LIST_TYPES.includes(n.type),
+      (LIST_TYPES.includes(n.type) || n.type === "table_cell"),
     split: true,
-  })
-  const newProperties: Partial<Element> = {
-    type: isActive ? 'paragraph' : isList ? 'list_item' : type,
-  };
+  });
 
-  Transforms.setNodes<Element>(editor, newProperties)
+  Transforms.unwrapNodes(editor, {
+    match: n =>
+      !Editor.isEditor(n) &&
+      Element.isElement(n) &&
+      n.type === "table",
+    split: true,
+  });
+
+  let newProperties: Partial<Element>;
+
+  if (isTable) {
+    newProperties = {
+      type: isActive ? 'paragraph' : 'table_cell'
+    };
+  } else {
+    newProperties = {
+      type: isActive ? 'paragraph' : isList ? 'list_item' : type,
+    };
+  }
+
+  Transforms.setNodes<Element>(editor, newProperties);
+
+  if (!isActive && isTable) {
+    Transforms.wrapNodes(editor, { type: 'table', children: [] })
+    Transforms.wrapNodes(editor, { type: 'table_row', children: [] })
+  }
 
   if (!isActive && isList) {
-    const block = { type: type, children: [] }
-    Transforms.wrapNodes(editor, block)
+    Transforms.wrapNodes(editor, { type: type, children: [] })
   }
 }
-
 
 const useEditorElement = (editor: CustomEditor) => {
   const isListOrderedActive = useCallback(() => isBlockActive(editor, "list_ordered"), [editor]);
@@ -62,11 +83,17 @@ const useEditorElement = (editor: CustomEditor) => {
 
   const toggleListUnOrderedBlock = useCallback(() => toggleBlock(editor, "list_unordered"), [editor]);
 
+  const isTableActive = useCallback(() => isBlockActive(editor, "table"), [editor]);
+
+  const toggleTableBlock = useCallback(() => toggleBlock(editor, "table"), [editor]);
+
   return {
     isListOrderedActive,
     toggleListOrderedBlock,
     isListUnOrderedActive,
     toggleListUnOrderedBlock,
+    isTableActive,
+    toggleTableBlock,
   };
 };
 
