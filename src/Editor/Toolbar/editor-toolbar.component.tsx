@@ -76,7 +76,7 @@ const EditorToolbar: FC<ComponentProps<typeof Root>> = (props) => {
         <Redo onClick={editor.redo}/>
       </Group>
       <Group>
-        <TableAction isActive={isTableActive()} onClick={toggleTableBlock}/>
+        <TableAction disabled={isListUnOrderedActive() || isListOrderedActive()} isActive={isTableActive()} onClick={toggleTableBlock}/>
         <TableRowAddAfterAction disabled={!isTableActive()} onClick={addTableRowAfterBlock}/>
         <TableRowAddBeforeAction disabled={!isTableActive()} onClick={addTableRowBeforeBlock}/>
         <TableRowRemoveAction disabled={!isTableActive()} onClick={removeTableRowBlock}/>
