@@ -1,6 +1,4 @@
-import {CustomElement} from "./types/slate";
-
-const initialData: Array<CustomElement> = [
+[
   {
     "type": "paragraph",
     "children": [
@@ -70,7 +68,14 @@ const initialData: Array<CustomElement> = [
         ]
       }
     ]
+  },
+  {
+    "type": "paragraph",
+    "children": [
+      {
+        "href": "",
+        "text": "Also we have tables:"
+      }
+    ]
   }
-];
-
-export {initialData}
+]

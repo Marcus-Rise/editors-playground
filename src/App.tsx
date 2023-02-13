@@ -2,7 +2,7 @@ import React, {ComponentProps, FC, useCallback} from 'react';
 import {Editor, EditorContextProvider, EditorToolbar} from "./Editor";
 import styled, {ThemeProvider} from "styled-components";
 import {LIGHT_THEME} from "@admiral-ds/react-ui";
-import {initialData} from "./initial.data";
+import initialData from "./initial.data.json";
 import {serialize} from "./Editor/utils/serialize.helper";
 import {Descendant} from "slate";
 
