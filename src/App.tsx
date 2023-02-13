@@ -1,48 +1,33 @@
-import React, {FC, useState} from 'react';
-import initialData from './data.json'
-import Editor from "./components/Editor";
-import EditorJsRenderer from "./components/EditorJsRenderer";
-import {EditorDto, EditorDtoFactory, ServerDto, ServerDtoFactory} from "./dto";
-import {ServerDtoForm} from "./components/ServerDtoForm";
+import React, {ComponentProps, FC, useCallback} from 'react';
+import {Editor, EditorContextProvider, EditorToolbar} from "./Editor";
+import styled, {ThemeProvider} from "styled-components";
+import {LIGHT_THEME} from "@admiral-ds/react-ui";
+import initialData from "./initial.data.json";
+import {serialize} from "./Editor/utils/serialize.helper";
+import {Descendant} from "slate";
+
+const Main = styled.main`
+  padding: 1rem;
+`;
 
 const App: FC = () => {
-  const [data, setData] = useState<EditorDto>(initialData.blocks as EditorDto);
-  const [serverDto, setServerDto] = useState(`<p>awdwada</p>`);
+  const sendData: ComponentProps<typeof EditorContextProvider>["onChange"] = useCallback((dto: Descendant[]) => {
+    console.log("editor data", dto);
 
-  const processEditorData = (data: EditorDto): void => {
-    console.debug("processEditorData", "blocks", data);
+    const html = dto.map((node) => serialize(node)).join('\n');
 
-    const dto = ServerDtoFactory.fromEditorDto(data);
-
-    console.debug("processEditorData", "result", dto);
-
-    setServerDto(dto);
-  };
-
-  const processServerDto = (dto: ServerDto) => {
-    console.debug("processServerDto", "dto", dto);
-
-    const editorDto = EditorDtoFactory.fromServerDto(dto);
-
-    console.debug("processServerDto", "editorDto", editorDto);
-
-    setData(editorDto);
-  }
+    console.log("serialized data", html);
+  }, []);
 
   return (
-    <main>
-      <ServerDtoForm onChange={processServerDto} defaultValue={serverDto}/>
-
-      <Editor
-        onChange={processEditorData}
-        holder={"ad"}
-        data={data}
-      />
-
-      <h2>Preview</h2>
-
-      {!!data && <EditorJsRenderer data={data}/>}
-    </main>
+    <ThemeProvider theme={LIGHT_THEME}>
+      <Main>
+        <EditorContextProvider value={initialData} onChange={sendData}>
+          <EditorToolbar/>
+          <Editor/>
+        </EditorContextProvider>
+      </Main>
+    </ThemeProvider>
   );
 };
 
