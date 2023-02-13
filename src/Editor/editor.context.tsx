@@ -17,10 +17,10 @@ const EditorContextProvider: FC<PropsWithChildren<Props>> = ({children, value = 
           {text: ""}
         ]
       });
+    }
 
-      if (onChange) {
-        onChange(data);
-      }
+    if (onChange) {
+      onChange(data);
     }
   }, [editor, onChange]);
 
