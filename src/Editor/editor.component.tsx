@@ -71,6 +71,7 @@ const Editor: FC = () => {
       renderElement={RenderElement}
       renderLeaf={RenderLeaf}
       onKeyDown={handleHotKeys}
+      placeholder="Enter some rich text…"
     />
   );
 };
