@@ -29,7 +29,22 @@ type ListUnOrderedElement = BaseElement & {
   children: Array<ListItem | ListOrderedElement | ListUnOrderedElement>;
 }
 
-type CustomElement = ParagraphElement | ListOrderedElement | ListUnOrderedElement | ListItem;
+type TableCellElement = BaseElement & {
+  type: "table_cell";
+  children: CustomText[];
+}
+
+type TableRowElement = BaseElement & {
+  type: "table_row";
+  children: TableCellElement[];
+}
+
+type TableElement = BaseElement & {
+  type: "table";
+  children: TableRowElement[];
+}
+
+type CustomElement = ParagraphElement | ListOrderedElement | ListUnOrderedElement | ListItem | TableElement;
 
 declare module 'slate' {
   interface CustomTypes {

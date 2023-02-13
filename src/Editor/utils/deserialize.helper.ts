@@ -62,6 +62,12 @@ const deserialize = (el: Element, markAttributes?: Partial<FormattedText>): Desc
       return jsx('element', {type: 'list_ordered'}, children)
     case 'UL':
       return jsx('element', {type: 'list_unordered'}, children)
+    case 'TABLE':
+      return jsx('element', {type: 'table'}, children)
+    case 'TR':
+      return jsx('element', {type: 'table_row'}, children)
+    case 'TD':
+      return jsx('element', {type: 'table_cell'}, children)
     default:
       return children
   }

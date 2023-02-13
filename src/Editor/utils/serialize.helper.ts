@@ -39,6 +39,12 @@ const serialize = (node: Descendant): string => {
       return `<ol>${children}</ol>`
     case 'list_unordered':
       return `<ul>${children}</ul>`
+    case 'table':
+      return `<table><tbody>${children}</tbody></table>`
+    case 'table_row':
+      return `<tr>${children}</tr>`
+    case 'table_cell':
+      return `<td>${children}</td>`
     default:
       return children
   }

@@ -77,5 +77,52 @@
         "text": "Also we have tables:"
       }
     ]
+  },
+  {
+    "type": "table",
+    "children": [
+      {
+        "type": "table_row",
+        "children": [
+          {
+            "type": "table_cell",
+            "children": [
+              {
+                "text": "Example cell 1"
+              }
+            ]
+          },
+          {
+            "type": "table_cell",
+            "children": [
+              {
+                "text": "Example cell 2"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "table_row",
+        "children": [
+          {
+            "type": "table_cell",
+            "children": [
+              {
+                "text": "Example cell 3"
+              }
+            ]
+          },
+          {
+            "type": "table_cell",
+            "children": [
+              {
+                "text": "Example cell 4"
+              }
+            ]
+          }
+        ]
+      }
+    ]
   }
 ]
