@@ -88,7 +88,13 @@
             "type": "table_cell",
             "children": [
               {
-                "text": "Example cell 1"
+                "text": "Example cell 1 with "
+              },
+              {
+                "text": "formatting",
+                "bold": true,
+                "italic": true,
+                "underline": true
               }
             ]
           },
