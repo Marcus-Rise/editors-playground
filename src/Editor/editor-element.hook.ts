@@ -1,5 +1,5 @@
 import {CustomEditor, CustomElement} from "../types/slate";
-import {Editor, Element, Transforms} from "slate";
+import {Editor, Element, Location, Transforms} from "slate";
 import {useCallback} from "react";
 
 type ElementType = CustomElement["type"];
@@ -94,6 +94,13 @@ const useEditorElement = (editor: CustomEditor) => {
   }, [editor]);
 
   const addTableRowBlock = useCallback((direction: "after" | "before") => {
+    let location: Location | undefined;
+
+    if (direction === "before" && editor.selection) {
+      const [y, x] = editor.selection.anchor.path;
+      location = [y, x];
+    }
+
     Transforms.insertNodes(editor, [{
         type: "table_row",
         children: [
@@ -108,6 +115,7 @@ const useEditorElement = (editor: CustomEditor) => {
       ],
       {
         match: (n) => !Editor.isEditor(n) && Element.isElement(n) && n.type === "table_row",
+        at: location,
       });
   }, [editor]);
 
