@@ -94,8 +94,22 @@ const useEditorElement = (editor: CustomEditor) => {
   }, [editor]);
 
   const addTableRowAfterBlock = useCallback(() => {
-    console.debug("row after");
-  }, []);
+    Transforms.insertNodes(editor, [{
+        type: "table_row",
+        children: [
+          {
+            type: "table_cell",
+            children: [
+              {text: ""}
+            ],
+          }
+        ],
+      },
+      ],
+      {
+        match: (n) => !Editor.isEditor(n) && Element.isElement(n) && n.type === "table_row",
+      });
+  }, [editor]);
 
   const addTableRowBelowBlock = useCallback(() => {
     console.debug("row below");
