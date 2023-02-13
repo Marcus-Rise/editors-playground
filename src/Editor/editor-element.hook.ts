@@ -93,7 +93,7 @@ const useEditorElement = (editor: CustomEditor) => {
     })
   }, [editor]);
 
-  const addTableRowAfterBlock = useCallback(() => {
+  const addTableRowBlock = useCallback((direction: "after" | "before") => {
     Transforms.insertNodes(editor, [{
         type: "table_row",
         children: [
@@ -111,9 +111,9 @@ const useEditorElement = (editor: CustomEditor) => {
       });
   }, [editor]);
 
-  const addTableRowBelowBlock = useCallback(() => {
-    console.debug("row below");
-  }, []);
+  const addTableRowAfterBlock = useCallback(() => addTableRowBlock("after"), [addTableRowBlock]);
+
+  const addTableRowBeforeBlock = useCallback(() => addTableRowBlock("before"), [addTableRowBlock]);
 
   return {
     isListOrderedActive,
@@ -124,7 +124,7 @@ const useEditorElement = (editor: CustomEditor) => {
     toggleTableBlock,
     removeTableRowBlock,
     addTableRowAfterBlock,
-    addTableRowBelowBlock,
+    addTableRowBeforeBlock,
   };
 };
 

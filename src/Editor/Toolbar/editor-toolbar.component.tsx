@@ -10,9 +10,8 @@ import {
   OrderedList,
   Paste,
   Redo,
-  TableAction,
-  TableRowAddAfterAction,
-  TableRowAddBelowAction,
+  TableAction, TableRowAddAfterAction,
+  TableRowAddBeforeAction,
   TableRowRemoveAction,
   Underline,
   Undo,
@@ -45,8 +44,8 @@ const EditorToolbar: FC<ComponentProps<typeof Root>> = (props) => {
     isTableActive,
     toggleTableBlock,
     removeTableRowBlock,
+    addTableRowBeforeBlock,
     addTableRowAfterBlock,
-    addTableRowBelowBlock,
   } = useEditor();
 
   return (
@@ -79,7 +78,7 @@ const EditorToolbar: FC<ComponentProps<typeof Root>> = (props) => {
       <Group>
         <TableAction isActive={isTableActive()} onClick={toggleTableBlock}/>
         <TableRowAddAfterAction disabled={!isTableActive()} onClick={addTableRowAfterBlock}/>
-        <TableRowAddBelowAction disabled={!isTableActive()} onClick={addTableRowBelowBlock}/>
+        <TableRowAddBeforeAction disabled={!isTableActive()} onClick={addTableRowBeforeBlock}/>
         <TableRowRemoveAction disabled={!isTableActive()} onClick={removeTableRowBlock}/>
       </Group>
     </Root>
