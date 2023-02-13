@@ -87,6 +87,20 @@ const useEditorElement = (editor: CustomEditor) => {
 
   const toggleTableBlock = useCallback(() => toggleBlock(editor, "table"), [editor]);
 
+  const removeTableRowBlock = useCallback(() => {
+    Transforms.removeNodes(editor, {
+      match: (n) => !Editor.isEditor(n) && Element.isElement(n) && n.type === "table_row"
+    })
+  }, [editor]);
+
+  const addTableRowAfterBlock = useCallback(() => {
+    console.debug("row after");
+  }, []);
+
+  const addTableRowBelowBlock = useCallback(() => {
+    console.debug("row below");
+  }, []);
+
   return {
     isListOrderedActive,
     toggleListOrderedBlock,
@@ -94,6 +108,9 @@ const useEditorElement = (editor: CustomEditor) => {
     toggleListUnOrderedBlock,
     isTableActive,
     toggleTableBlock,
+    removeTableRowBlock,
+    addTableRowAfterBlock,
+    addTableRowBelowBlock,
   };
 };
 
