@@ -65,12 +65,12 @@ const toggleBlock = (editor: CustomEditor, type: ElementType) => {
   Transforms.setNodes<Element>(editor, newProperties);
 
   if (!isActive && isTable) {
-    Transforms.wrapNodes(editor, { type: 'table', children: [] })
-    Transforms.wrapNodes(editor, { type: 'table_row', children: [] })
+    Transforms.wrapNodes(editor, {type: 'table', children: []})
+    Transforms.wrapNodes(editor, {type: 'table_row', children: []})
   }
 
   if (!isActive && isList) {
-    Transforms.wrapNodes(editor, { type: type, children: [] })
+    Transforms.wrapNodes(editor, {type: type, children: []})
   }
 }
 
